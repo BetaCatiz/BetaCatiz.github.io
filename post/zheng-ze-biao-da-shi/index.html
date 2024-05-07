@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>正则表达式 | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="限定符
+限定字符（串）出现的次数，放在字符（串）后面
+?
+匹配零次或一次
+*
+匹配零次或多次
++
+匹配一次或多次
+{}
+
+{n} 匹配n次
+{n,}匹配大于等于n次
+{n,m}匹配[n,m][n,m][n,m]次
+
+或运算符|
+(n|m)表..." />
+    <meta name="keywords" content="学习" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">正则表达式</h2>
+            <div class="post-date">2024-05-07</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="限定符">限定符</h1>
+<p>限定字符（串）出现的次数，放在字符（串）后面</p>
+<h2 id="">?</h2>
+<p>匹配零次或一次</p>
+<h2 id="-2">*</h2>
+<p>匹配零次或多次</p>
+<h2 id="-3">+</h2>
+<p>匹配一次或多次</p>
+<h2 id="-4">{}</h2>
+<ul>
+<li>{n} 匹配n次</li>
+<li>{n,}匹配大于等于n次</li>
+<li>{n,m}匹配<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>n</mi><mo separator="true">,</mo><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[n,m]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span>次</li>
+</ul>
+<h1 id="或运算符">或运算符|</h1>
+<p>(n|m)表示n或m任一存在即可</p>
+<h1 id="字符簇">字符簇</h1>
+<p>[0-9]代表所有数字，[a-zA-Z]代表所有字母<br>
+[^0-9]代表非数字</p>
+<h1 id="元字符">元字符</h1>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>含义（大写含义相反）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d</td>
+<td>数字字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>字母，数字，下划线字符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>空格，换行符和制表符</td>
+</tr>
+<tr>
+<td>.</td>
+<td>任意字符（除换行符）</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配行首</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配行尾</td>
+</tr>
+</tbody>
+</table>
+<h1 id="贪婪与懒惰匹配">贪婪与懒惰匹配</h1>
+<h2 id="贪婪匹配">贪婪匹配</h2>
+<p>贪婪匹配尽可能多地匹配符合条件的字符串。这是正则表达式默认的匹配方式。<br>
+a.*b 应用于字符串 &quot;axxbxxb&quot; 时，会匹配从第一个 'a' 到最后一个 'b' 之间的整个部分，即 &quot;axxbxxb&quot;。</p>
+<h2 id="懒惰匹配">懒惰匹配</h2>
+<p>懒惰匹配尽可能少地匹配符合条件的字符串。<br>
+通常是通过在限定符后加上一个?来实现的。<br>
+正则表达式 a.*?b 应用于字符串 &quot;axxbxxb&quot; 时，会匹配从第一个 'a' 到第一个 'b' 之间的最短部分，即 &quot;axxb&quot;。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/CJpCEXKoX/" class="tag">
+                    学习
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://betacatiz.github.io/post/lan-qiao-bei-wang-luo-an-quan-2024-writeup/">
+                  <h3 class="post-title">
+                    蓝桥杯网络安全2024 WriteUp
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

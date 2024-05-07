@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>PaluCTF2024 WriteUp | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+REVERSE
+
+Reverse-签到
+Auth System
+
+
+MISC
+
+Misc-签到
+FM 145.8
+江
+ez_misc
+
+
+CRYPTO
+
+Crypto-签到
+
+
+
+
+REVERSE
+Reverse-签到
+flag:flag..." />
+    <meta name="keywords" content="WP" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">PaluCTF2024 WriteUp</h2>
+            <div class="post-date">2024-04-21</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#reverse"><strong>REVERSE</strong></a>
+<ul>
+<li><a href="#reverse-%E7%AD%BE%E5%88%B0">Reverse-签到</a></li>
+<li><a href="#auth-system">Auth System</a></li>
+</ul>
+</li>
+<li><a href="#misc"><strong>MISC</strong></a>
+<ul>
+<li><a href="#misc-%E7%AD%BE%E5%88%B0">Misc-签到</a></li>
+<li><a href="#fm-1458">FM 145.8</a></li>
+<li><a href="#%E6%B1%9F">江</a></li>
+<li><a href="#ez_misc">ez_misc</a></li>
+</ul>
+</li>
+<li><a href="#crypto"><strong>CRYPTO</strong></a>
+<ul>
+<li><a href="#crypto-%E7%AD%BE%E5%88%B0">Crypto-签到</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="reverse"><strong>REVERSE</strong></h1>
+<h2 id="reverse-签到">Reverse-签到</h2>
+<p>flag:flag{94207979239367868421}</p>
+<p>go语言逆向，非常难看，但是可以通过encrypt函数发现map映射，推测是字符映射加密</p>
+<p>将local.txt替换为32-125的adcaii码，得到映射</p>
+<pre><code class="language-Python">0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+
+0690123456:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`dbcdejihijkmmnopqrstuvwxyzz|{~
+</code></pre>
+<p>由于6和0映射两个字符，使用递归爆破flag</p>
+<pre><code class="language-Python">def replace_and_generate(s, index=0, current_string=&quot;&quot;):
+    if index == len(s):
+        # 如果到达字符串末尾，打印当前生成的字符串
+        print(current_string)
+        return
+    
+    # 获取当前位置的字符
+    char = s[index]
+    if char == '6':
+        # 如果字符是'6'，尝试替换为'9'和'1'，并递归
+        replace_and_generate(s, index + 1, current_string + '9')
+        replace_and_generate(s, index + 1, current_string + '1')
+    elif char == '0' :
+        # 如果字符是'0'，尝试替换为'0'和'3'，并递归
+        replace_and_generate(s, index + 1, current_string + '0')
+        replace_and_generate(s, index + 1, current_string + '3')
+    else:
+        # 如果不是，保持字符不变，并递归
+        replace_and_generate(s, index + 1, current_string + char)
+
+# 调用函数，输入原始字符串
+replace_and_generate(&quot;flag{642076762360?78?8426}&quot;)
+p = '''
+flag{942079792390?78?8429}
+flag{942079792390?78?8421}
+flag{942079792393?78?8429}
+flag{942079792393?78?8421}
+flag{942079792310?78?8429}
+flag{942079792310?78?8421}
+flag{942079792313?78?8429}
+flag{942079792313?78?8421}
+flag{942079712390?78?8429}
+flag{942079712390?78?8421}
+flag{942079712393?78?8429}
+flag{942079712393?78?8421}
+flag{942079712310?78?8429}
+flag{942079712310?78?8421}
+flag{942079712313?78?8429}
+flag{942079712313?78?8421}
+flag{942071792390?78?8429}
+flag{942071792390?78?8421}
+flag{942071792393?78?8429}
+flag{942071792393?78?8421}
+flag{942071792310?78?8429}
+flag{942071792310?78?8421}
+flag{942071792313?78?8429}
+flag{942071792313?78?8421}
+flag{942071712390?78?8429}
+flag{942071712390?78?8421}
+flag{942071712393?78?8429}
+flag{942071712393?78?8421}
+flag{942071712310?78?8429}
+flag{942071712310?78?8421}
+flag{942071712313?78?8429}
+flag{942071712313?78?8421}
+flag{942379792390?78?8429}
+flag{942379792390?78?8421}
+flag{942379792393?78?8429}
+flag{942379792393?78?8421}
+flag{942379792310?78?8429}
+flag{942379792310?78?8421}
+flag{942379792313?78?8429}
+flag{942379792313?78?8421}
+flag{942379712390?78?8429}
+flag{942379712390?78?8421}
+flag{942379712393?78?8429}
+flag{942379712393?78?8421}
+flag{942379712310?78?8429}
+flag{942379712310?78?8421}
+flag{942379712313?78?8429}
+flag{942379712313?78?8421}
+flag{942371792390?78?8429}
+flag{942371792390?78?8421}
+flag{942371792393?78?8429}
+flag{942371792393?78?8421}
+flag{942371792310?78?8429}
+flag{942371792310?78?8421}
+flag{942371792313?78?8429}
+flag{942371792313?78?8421}
+flag{942371712390?78?8429}
+flag{942371712390?78?8421}
+flag{942371712393?78?8429}
+flag{942371712393?78?8421}
+flag{942371712310?78?8429}
+flag{942371712310?78?8421}
+flag{942371712313?78?8429}
+flag{942371712313?78?8421}
+flag{142079792390?78?8429}
+flag{142079792390?78?8421}
+flag{142079792393?78?8429}
+flag{142079792393?78?8421}
+flag{142079792310?78?8429}
+flag{142079792310?78?8421}
+flag{142079792313?78?8429}
+flag{142079792313?78?8421}
+flag{142079712390?78?8429}
+flag{142079712390?78?8421}
+flag{142079712393?78?8429}
+flag{142079712393?78?8421}
+flag{142079712310?78?8429}
+flag{142079712310?78?8421}
+flag{142079712313?78?8429}
+flag{142079712313?78?8421}
+flag{142071792390?78?8429}
+flag{142071792390?78?8421}
+flag{142071792393?78?8429}
+flag{142071792393?78?8421}
+flag{142071792310?78?8429}
+flag{142071792310?78?8421}
+flag{142071792313?78?8429}
+flag{142071792313?78?8421}
+flag{142071712390?78?8429}
+flag{142071712390?78?8421}
+flag{142071712393?78?8429}
+flag{142071712393?78?8421}
+flag{142071712310?78?8429}
+flag{142071712310?78?8421}
+flag{142071712313?78?8429}
+flag{142071712313?78?8421}
+flag{142379792390?78?8429}
+flag{142379792390?78?8421}
+flag{142379792393?78?8429}
+flag{142379792393?78?8421}
+flag{142379792310?78?8429}
+flag{142379792310?78?8421}
+flag{142379792313?78?8429}
+flag{142379792313?78?8421}
+flag{142379712390?78?8429}
+flag{142379712390?78?8421}
+flag{142379712393?78?8429}
+flag{142379712393?78?8421}
+flag{142379712310?78?8429}
+flag{142379712310?78?8421}
+flag{142379712313?78?8429}
+flag{142379712313?78?8421}
+flag{142371792390?78?8429}
+flag{142371792390?78?8421}
+flag{142371792393?78?8429}
+flag{142371792393?78?8421}
+flag{142371792310?78?8429}
+flag{142371792310?78?8421}
+flag{142371792313?78?8429}
+flag{142371792313?78?8421}
+flag{142371712390?78?8429}
+flag{142371712390?78?8421}
+flag{142371712393?78?8429}
+flag{142371712393?78?8421}
+flag{142371712310?78?8429}
+flag{142371712310?78?8421}
+flag{142371712313?78?8429}
+flag{142371712313?78?8421}
+'''
+
+for i in p :
+    if i == '?' :
+        print ( '6', end = '')
+    else :
+        print ( i , end = '' )
+</code></pre>
+<h2 id="auth-system">Auth System</h2>
+<p>flag:flag{ASCII_ART_IS_FUN}</p>
+<p>64位exe，伪C代码没有东西，藏在汇编里</p>
+<figure data-type="image" tabindex="1"><img src="https://ooo.0x0.ooo/2024/05/07/Op3fLK.png" alt="img" loading="lazy"></figure>
+<p>动态调试调至左侧即可打印出flag</p>
+<figure data-type="image" tabindex="2"><img src="https://ooo.0x0.ooo/2024/05/07/Op3Y7s.png" alt="img" loading="lazy"></figure>
+<h1 id="misc"><strong>MISC</strong></h1>
+<h2 id="misc-签到">Misc-签到</h2>
+<p>flag:flag{TreJaiuLT1rgbdfG0Eay}</p>
+<p>10进制转字符</p>
+<pre><code class="language-Python">cipher = '''27880
+30693
+25915
+21892
+38450
+23454
+39564
+23460
+21457
+36865
+112
+108
+98
+99
+116
+102
+33719
+21462
+21069
+27573
+102
+108
+97
+103
+20851
+27880
+79
+110
+101
+45
+70
+111
+120
+23433
+20840
+22242
+38431
+22238
+22797
+112
+108
+98
+99
+116
+102
+33719
+21462
+21518
+27573
+102
+108
+97
+103'''
+p = list ( cipher.split('\n') )
+for i in p :
+    i = int ( i ) 
+    print ( chr ( i ) , end = '' )
+注知攻善防实验室发送plbctf获取前段flag关注One-Fox安全团队回复plbctf获取后段flag
+</code></pre>
+<h2 id="fm-1458">FM 145.8</h2>
+<p>flag:flag{19b4dD77bF3c66f91c23F5A25Bc314CB}</p>
+<p>MMSSTV，装了虚拟声卡，跑的就是清晰！</p>
+<figure data-type="image" tabindex="3"><img src="https://ooo.0x0.ooo/2024/05/07/Op3lua.png" alt="img" loading="lazy"></figure>
+<h2 id="江">江</h2>
+<p>百度识图 + 高德地图 == 湖北省武汉市江汉二路与江汉步行街交叉路口</p>
+<h2 id="ez_misc">ez_misc</h2>
+<p>flag:flag{b220116fc6ca827ecf3cb6c6c06dac26}</p>
+<p>zip伪加密，获得一个jpg图片和一个加密rar压缩包</p>
+<p>jpg末尾有提示<code>this is password</code>，后续跟着<code>09 20</code>的字节，推测snow隐写</p>
+<pre><code>snow.exe -C 1.txt
+</code></pre>
+<p>得到解压密码<code>Carefree and carefree</code></p>
+<h1 id="crypto"><strong>CRYPTO</strong></h1>
+<h2 id="crypto-签到">Crypto-签到</h2>
+<p>flag:flag{20df8477-faa1-45be-84c2-815896f57ea7}</p>
+<p>RSA，给了n、p、c、e，发现n为平方数，修改一下欧拉函数即可</p>
+<pre><code class="language-Python">import libnum
+import gmpy2
+
+c = 82842906788636592492271066893769571955229168017356079088572626204245295058852564113933797086860938577522204614747010349961773519578853600805432478265574887247097136215988763430249336641865255009225100260144137595185775324909903020445877058452913281722437086851805024078007271164163452599950032199446517886066
+p = 12997903135943019350944748082754549358026456093276038127266042371313868362099170139764055205606000548781749184149029011781127853420478548971045742939648447
+e = 65537
+n = 168945485931357376581910098129497447019127053765631385447420056057443645668530839223054528228945913700397201460738498087720357309974135107530141616346740842663335124641180686024764850956739174661813413634852386200714267489586995144627145935034041947210432347765428327462946968407678131243723755464551949511809
+q = n // p
+
+phi_n=p**2-p
+
+#求逆元
+d=libnum.invmod(e,phi_n)
+
+m=pow(c,d,n)
+print(m)
+#数字转字节，转字符串
+print(libnum.n2s(m).decode())
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/OEDu25kST/" class="tag">
+                    WP
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://betacatiz.github.io/post/qing-shao-nian-ctf-lei-tai-tiao-zhan-sai-2024-round-1-writeup/">
+                  <h3 class="post-title">
+                    青少年CTF擂台挑战赛 2024 #Round 1 WriteUp
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

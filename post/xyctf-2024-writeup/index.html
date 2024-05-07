@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>XYCTF2024 WriteUp | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+MISC
+
+签到
+game
+熊博士
+ez_隐写
+ZIP神之套
+TCPL
+zzl的护理小课堂
+真&gt;签到
+Rosk,Paper,Scissors!
+Osint1
+EZ_Base1024*2
+
+
+CRYPTO
+
+Sign1n[签到]
+Si..." />
+    <meta name="keywords" content="WP" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">XYCTF2024 WriteUp</h2>
+            <div class="post-date">2024-04-26</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#misc"><strong>MISC</strong></a>
+<ul>
+<li><a href="#%E7%AD%BE%E5%88%B0">签到</a></li>
+<li><a href="#game">game</a></li>
+<li><a href="#%E7%86%8A%E5%8D%9A%E5%A3%AB">熊博士</a></li>
+<li><a href="#ez_%E9%9A%90%E5%86%99">ez_隐写</a></li>
+<li><a href="#zip%E7%A5%9E%E4%B9%8B%E5%A5%97">ZIP神之套</a></li>
+<li><a href="#tcpl">TCPL</a></li>
+<li><a href="#zzl%E7%9A%84%E6%8A%A4%E7%90%86%E5%B0%8F%E8%AF%BE%E5%A0%82">zzl的护理小课堂</a></li>
+<li><a href="#%E7%9C%9F%E7%AD%BE%E5%88%B0">真&gt;签到</a></li>
+<li><a href="#roskpaperscissors">Rosk,Paper,Scissors!</a></li>
+<li><a href="#osint1">Osint1</a></li>
+<li><a href="#ez_base10242">EZ_Base1024*2</a></li>
+</ul>
+</li>
+<li><a href="#crypto"><strong>CRYPTO</strong></a>
+<ul>
+<li><a href="#sign1n%E7%AD%BE%E5%88%B0">Sign1n[签到]</a></li>
+<li><a href="#sign1n_revenge">Sign1n_Revenge</a></li>
+</ul>
+</li>
+<li><a href="#reverse"><strong>REVERSE</strong></a>
+<ul>
+<li><a href="#%E8%81%AA%E6%98%8E%E7%9A%84%E4%BF%A1%E4%BD%BF">聪明的信使</a></li>
+<li><a href="#%E5%96%B5%E5%96%B5%E5%96%B5%E7%9A%84flag%E7%A2%8E%E4%BA%86%E4%B8%80%E5%9C%B0">喵喵喵的flag碎了一地</a></li>
+<li><a href="#%E4%BD%A0%E6%98%AF%E7%9C%9F%E7%9A%84%E5%A4%A7%E5%AD%A6%E7%94%9F%E5%90%97">你是真的大学生吗？</a></li>
+<li><a href="#ez_cube">ez_cube</a></li>
+<li><a href="#%E7%BB%99%E9%98%BF%E5%A7%A8%E5%80%92%E4%B8%80%E6%9D%AF%E5%8D%A1%E5%B8%83%E5%A5%87%E8%AF%BA">给阿姨倒一杯卡布奇诺</a></li>
+<li><a href="#ez_rand">ez_rand</a></li>
+<li><a href="#%E7%A0%B8%E6%A0%B8%E6%A1%83">砸核桃</a></li>
+<li><a href="#ez_enc">ez_enc</a></li>
+<li><a href="#ezmath">ezmath</a></li>
+<li><a href="#%E4%BD%95%E9%A1%BB%E7%9B%B8%E6%80%9D%E7%85%AE%E4%BD%99%E5%B9%B4">何须相思煮余年</a></li>
+<li><a href="#whats-this">What's this</a></li>
+<li><a href="#%E8%88%94%E7%8B%97%E5%9B%9B%E9%83%A8%E6%9B%B2-%E7%AE%80%E7%88%B1">舔狗四部曲--简爱</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="misc"><strong>MISC</strong></h1>
+<h2 id="签到">签到</h2>
+<p>flag:XYCTF{WELCOME_TO_XYCTF}</p>
+<p>关注公众号回复</p>
+<h2 id="game">game</h2>
+<p>flag:XYCTF{Papers Please}</p>
+<p>谷歌识图游戏名</p>
+<h2 id="熊博士">熊博士</h2>
+<p>flag:XYCTF{liu_ye_mei_you_xiao_jj}</p>
+<p>解出小纸条转为atbash码是<code>xyctf{liu_ye_mei_you_xiao_jj}</code>，根据提示flag头大写，改为大写即可</p>
+<p>jpg查到有jphide隐写，但是密码未知，纯nt设计</p>
+<h2 id="ez_隐写">ez_隐写</h2>
+<p>flag:XYCTF{159-WSX-IJN-852}</p>
+<p>压缩包伪加密，先去除伪加密</p>
+<p>得到一个hint.png和加密压缩包</p>
+<p>png修复宽高，得到提示：开赛日期</p>
+<p>即压缩包密码是20240401，解压得到一个watermark.jpg，用盲水印工具提取，瞪眼法得到flag</p>
+<h2 id="zip神之套">ZIP神之套</h2>
+<p>flag:XYCTF{1A4B8-C9D2F3E-6A4B8C-9D2F3E7F}</p>
+<p>zip文件，第一层是exe和一个加密zip，exe运行出<code>xyctf????????ftcyx</code>，推测掩码攻击，得到密码<code>xyctf20240401ftcyx</code></p>
+<p>解压出两个压缩包，一个加密一个未加密，未加密里有加密压缩包里的文件，推测明文攻击，得到flag.md，搜索XYCTF得到flag</p>
+<h2 id="tcpl">TCPL</h2>
+<p>flag:FLAG{PLCT_An4_r0SCv_x0huann0}</p>
+<p>ELF文件，但是不能直接运行，怀疑文件被修改</p>
+<p>ida分析可以看到数据段，根据题目描述flag开头是FLAG{</p>
+<p>直接用ida读汇编语言，这里待完善</p>
+<p>首先是异或</p>
+<pre><code class="language-Python">cipher = [ '444A557F44434D46' , '3E7C5238654B565C' , '627E246C4C645243' , '2A747779' , '61' ]
+
+text = []
+
+for i in cipher :
+    for j in range ( len ( i ) - 1 , -1 , -2 ) :
+        text.append ( int ( i [ j - 1 : j + 1 ] , 16 ) ) 
+for i in range ( len ( text ) ) :
+    print ( chr ( text [ i ] ^ i ) , end = '')
+</code></pre>
+<p>FLAG{TCPL_An4_r1SCv_x1huann1}</p>
+<p>然后输出了一个图形，让其中的1变成这个图形，推断出是0</p>
+<pre><code class="language-Python"> *** 
+*   *
+*   *
+ ***
+</code></pre>
+<h2 id="zzl的护理小课堂">zzl的护理小课堂</h2>
+<p>flag:XYCTF{2zL_tEII_you_915a36eb7a38}</p>
+<p>web题，burpsuite抓包修改响应，使其提交时直接输出flag即可</p>
+<h2 id="真签到">真&gt;签到</h2>
+<p>flag:XYCTF{59bd0e77d13c_1406b23219e_f91cf3a_153e8ea4_77508ba}</p>
+<p>zip加密压缩包，但是010editor打开在文件头就发现了flag</p>
+<h2 id="roskpaperscissors">Rosk,Paper,Scissors!</h2>
+<p>flag:XYCTF{ROSk,PapeR,SclsS0R5_01581dd30576}</p>
+<p>靶机交互题，与程序进行石头剪刀布，第一次完全随机，后面的99次取决于之前的猜拳情况，根据程序逻辑反推出解即可</p>
+<p>这里socket一直连接不上，改用pwntool连接</p>
+<pre><code class="language-Python">from pwn import *
+from pwn import p64 , p32
+from collections import Counter
+import random
+
+palyerinputs = []
+
+def most_common_element(arr):
+    counter = Counter(arr)
+    most_common = counter.most_common(1)
+    return most_common[0][0] if most_common else None
+
+def random_ai(palyerinputs):
+    seed = palyerinputs[:-1]
+    if len(seed) == 0:
+        return random.randint(1, 3)
+    else:
+        return (most_common_element(seed) - 2) % 3 + 1
+
+IP = '127.0.0.1'
+port = 7052
+s = remote ( IP , port )
+
+print ( s.recv().decode() )
+
+palyerinputs.append ( 1 )
+s.sendline ( b'Rock' )
+print ( s.recv().decode() )
+cnt = 0
+while cnt != 100 :
+            for i in range ( 1 , 4 ) :
+                palyerinputs.append ( i )
+                aiinput = random_ai(palyerinputs)
+                if ( i == 1 and aiinput != 2 ) or ( i == 2 and aiinput != 3 ) or ( i == 3 and aiinput != 1 ) :
+                    palyerinputs.pop ( )
+                    continue
+                if aiinput == 1 :
+                    s.sendline ( b'Scissors' )
+                    break 
+                elif aiinput == 2 :
+                    s.sendline ( b'Rock' )
+                    break  
+                elif aiinput == 3 :
+                    s.sendline ( b'Paper' )
+                    break  
+            print ( s.recv().decode() )
+            cnt += 1
+print ( s.recvall().decode() )
+</code></pre>
+<h2 id="osint1">Osint1</h2>
+<p>flag:xyctf{江苏省|南通市|滨海东路|黄海}</p>
+<p>小红书识图</p>
+<h2 id="ez_base10242">EZ_Base1024*2</h2>
+<p>flag:XYCTF{84ca3a6e-3508-4e34-a5e0-7d0f03084181}</p>
+<p>base2048</p>
+<h1 id="crypto"><strong>CRYPTO</strong></h1>
+<h2 id="sign1n签到">Sign1n[签到]</h2>
+<p>flag:XYCTF{e883e6eb-f8e2-478a-a92d-fff024cc9de6}</p>
+<p>将flag转为长整形，然后转为二进制字符串，补全为514位，末尾补零，翻转后再进行加法模运算。逆向即可</p>
+<pre><code class="language-Python">from Crypto.Util.number import long_to_bytes
+
+# 给定的加密后的字符串 b
+b = &quot;12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891134567780113445779902334577801133467889122346779001245567991223466790012345788902334677801124556899023355788001235568990223566799023445778902335578800133456899012456679011344567991223557880012445788911334677890234456899023355788001244568991133467780113445779902335667900123467889012456679911245578801233467789112355779912234577990233556780113&quot;
+
+# 逆自定义加法
+def reverse_custom_add(input_str):
+    input_list = list(input_str)
+    length = len(input_list)
+
+    for i in range(length):
+        input_list[i] = str((int(input_list[i]) - i - 1 + 10) % 10)
+
+    result = ''.join(input_list)
+    return result
+
+# 逆位翻转
+def reverse_swap_bits(input_str):
+    input_list = list(input_str)
+    length = len(input_list)
+
+    for i in range(length // 2):
+        temp = input_list[i]
+        input_list[i] = input_list[length - 1 - i]
+        input_list[length - 1 - i] = temp
+
+    return ''.join(input_list)
+
+# 执行逆变换
+reversed_b = reverse_custom_add(b)
+reversed_leak = reverse_swap_bits(reversed_b)
+
+# 移除添加的零
+original_leak = reversed_leak.rstrip('0')
+
+# 二进制到整数的转换
+original_flag_int = int(original_leak, 2)
+
+# 整数到字节串的转换
+original_flag = long_to_bytes(original_flag_int)
+print ( original_flag )
+</code></pre>
+<h2 id="sign1n_revenge">Sign1n_Revenge</h2>
+<p>flag:flag{707a37ba-c623-449d-bebe-9a92728f940a}</p>
+<p>同上，只需连接上靶机得到附件的密文即可</p>
+<h1 id="reverse"><strong>REVERSE</strong></h1>
+<h2 id="聪明的信使">聪明的信使</h2>
+<p>flag:flag{Y0u_KnOw_Crypt0_14_v3ry_Imp0rt@nt!}</p>
+<p>凯撒加密，key=9</p>
+<h2 id="喵喵喵的flag碎了一地">喵喵喵的flag碎了一地</h2>
+<p>flag:flag{My_fl@g_h4s_br0ken_4parT_Bu7_Y0u_c@n_f1x_1t!}</p>
+<p>根据题目提示，flag分为三部分</p>
+<ul>
+<li>第一部分，string搜索 flag{My_fl@g_</li>
+<li>第二部分，函数名搜索 h4s_br0ken_4parT_</li>
+<li>第三部分，第二部分的函数名引用，分为两块，第一块在putchar Bu7_Y0u_c@n_，第二块在汇编代码里 f1x_1t!}</li>
+</ul>
+<h2 id="你是真的大学生吗">你是真的大学生吗？</h2>
+<p>flag:xyctf{you_know_8086}</p>
+<p>asm逆向，字符串异或</p>
+<pre><code class="language-Python">cipher = [0x76, 0x0E, 0x77, 0x14, 0x60, 0x06, 0x7D, 0x04, 0x6B, 0x1E, 0x41, 0x2A, 0x44, 0x2B, 0x5C, 0x03, 0x3B, 0x0B, 0x33, 0x05]
+for i in range ( len ( cipher ) - 1 ) :
+    cipher [ i ] = cipher [ i ] ^ cipher [ i + 1 ]
+for i in range ( len ( cipher ) ) :
+    print ( chr ( cipher [ i ] ), end = &quot;&quot; )
+</code></pre>
+<h2 id="ez_cube">ez_cube</h2>
+<p>flag:flag{RuRURURururr}</p>
+<p>魔方题，给出一个待还原的魔方，需要还原，这里先分析出魔方的结构</p>
+<pre><code class="language-C">  for ( i = 0; i &lt; 9; ++i )
+  {
+    zhengmian[i] = &quot;Red&quot;;
+    zuobian[i] = &quot;Blue&quot;;
+    youmian[i] = &quot;Green&quot;;
+    houmian[i] = &quot;Orange&quot;;
+    shangmian[i] = &quot;Yellow&quot;;
+    xiamian[i] = &quot;White&quot;;
+  }
+  zuobian[1] = &quot;Red&quot;;
+  zhengmian[1] = &quot;Green&quot;;
+  youmian[1] = &quot;Blue&quot;;
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://ooo.0x0.ooo/2024/05/07/Op3VOB.png" alt="img" loading="lazy"></figure>
+<p>然后可以知道，程序只允许<code>R、U、r、u</code>四种操作方法</p>
+<p>这个是最基础的还原操作，刚好十二步</p>
+<p><code>RuRURURururr</code>，得到flag</p>
+<h2 id="给阿姨倒一杯卡布奇诺">给阿姨倒一杯卡布奇诺</h2>
+<p>flag:XYCTF{133bffe401d223a02385d90c5f1ca377}</p>
+<p>魔改tea，脚本按照逻辑解密即可</p>
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+
+using namespace std ;
+
+void encrypt (uint32_t* v, uint32_t* k) {                       
+    uint32_t v0 = v[0], v1 = v[1], sum = 0;
+    uint32_t delta = 1853174124 ;
+    sum = delta * 32 ;
+    for ( int i = 31; i &gt;= 0 ; i--) {
+        v1 -= ((v0&lt;&lt;4) + k[2]) ^ (v0 + sum) ^ ((v0&gt;&gt;5) + k[3]) ^ ( sum + i ) ; // sum + i 魔改
+        v0 -= ((v1&lt;&lt;4) + k[0]) ^ (v1 + sum) ^ ((v1&gt;&gt;5) + k[1]) ^ ( sum + i ) ;
+        sum -= delta;
+    }
+    v[0] = v0;
+    v[1] = v1;
+}
+
+int main() {
+    uint32_t k[4] = {1702259047, 1970239839, 1886741343, 1634038879};
+    int32_t input[8] = {0x9B28ED45,0x145EC6E9,0x5B27A6C3,0xE59E75D5,0xE82C2500,0xA4211D92,0xCD8A4B62,0xA668F440};
+    
+    //scanf(&quot;%32s&quot;, input);
+    uint32_t data1 = 0x5F797274 , data2 = 0x64726168 ;
+    for (int i = 0; i &lt; 8; i+=2) {
+        uint32_t v[2] = {*(uint32_t *)&amp;input[i], *(uint32_t *)&amp;input[i+1]} ;
+        encrypt(v, k);
+        v [ 0 ] ^= data1 , v [ 1 ] ^= data2 ; //异或魔改
+        data1 = input [ i ] , data2 = input [ i + 1 ] ;   
+        for (int j = 0; j &lt; 2; j++) {                          
+            for (int k = 0; k &lt; 4; k++) {
+                printf(&quot;%c&quot;, v[j] &amp; 0xff);
+                v[j] &gt;&gt;= 8;
+            }
+        }
+    }
+    return 0;
+}
+</code></pre>
+<h2 id="ez_rand">ez_rand</h2>
+<p>flag:XYCTF{R@nd_1s_S0_S0_S0_easy!}</p>
+<p>时间戳爆破题，需要先爆出时间戳，由于给定flag格式为<code>XYCTF{</code>，所以可以根据这个来爆破</p>
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+
+using namespace std ;
+
+
+int main() {
+    
+    for ( register int i = 0 ; i &lt;= 1000000000000 ; ++i ) {
+            srand ( i ) ;
+            int v7 = rand ( ) ;
+            if ( (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) == 5 ) {
+                    v7 = rand ( ) ;
+                    if ( (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) == 85 ) {
+                            v7 = rand ( ) ;
+                            if ( (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) == 47 ) {
+                                    v7 = rand ( ) ;
+                                    if ( (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) == 190 ) {
+                                            v7 = rand ( ) ;
+                                            if ( (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) == 0 ) {
+                                                    cout &lt;&lt; i &lt;&lt; &quot; &quot; ;
+                                                }
+                                        }
+                                } 
+                        }
+                }
+             
+        }
+    return 0;
+}
+</code></pre>
+<p>得到种子<code>21308</code></p>
+<p>根据种子进行解密即可</p>
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+
+using namespace std ;
+
+int data[29] = {
+    0x5D, 0x0C, 0x6C, 0xEA, 0x46, 0x19, 0xFC, 0x34, 0xB2, 0x62, 0x23, 0x07, 0x62, 0x22, 0x6E, 0xFB, 
+    0xB4, 0xE8, 0xF2, 0xA9, 0x91, 0x12, 0x21, 0x86, 0xDB, 0x8E, 0xE9, 0x43 ,0x4d 
+};
+int main ( ) {
+        
+        srand ( 21308 ) ;
+        
+        for ( int i = 0 ; i &lt; 29 ; ++i ) {
+                int v7 = rand ( ) ;
+                data [ i ] ^= (unsigned __int8)(v7 + ((((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &amp; 0x80000000 ) != 0) + ((int)((unsigned __int64)(2155905153 * v7) &gt;&gt; 32) &gt;&gt; 7)) ;
+                
+        }
+        for ( int i = 0 ; i &lt; 29 ; ++i ) {
+                cout &lt;&lt; char ( data [ i ] ) ;
+        }
+        return 0 ;
+}
+</code></pre>
+<h2 id="砸核桃">砸核桃</h2>
+<p>flag:flag{59b8ed8f-af22-11e7-bb4a-3cf862d1ee75}</p>
+<p>手脱壳例题，脱开就能看到flag的异或逻辑，编写脚本解密</p>
+<pre><code class="language-Python">key = 'this_is_not_flag'
+cipher = [0x12, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x5C, 0x00, 0x00, 0x00, 0x4A, 0x00, 0x00, 0x00, 0x3D, 0x00, 0x00, 0x00, 0x56, 0x00, 0x00, 0x00, 0x0A, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x67, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x46, 0x00, 0x00, 0x00, 0x5A, 0x00, 0x00, 0x00, 0x44, 0x00, 0x00, 0x00, 0x42, 0x00, 0x00, 0x00, 0x6E, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x44, 0x00, 0x00, 0x00, 0x72, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x3E, 0x00, 0x00, 0x00, 0x4B, 0x00, 0x00, 0x00, 0x5F, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x4C, 0x00, 0x00, 0x00, 0x5E, 0x00, 0x00, 0x00, 0x5B, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x00, 0x6E, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00, 0x68, 0x00, 0x00, 0x00, 0x5B, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x48, 0x00, 0x00, 0x00]
+for i in range ( 42 ) :
+    print ( chr ( cipher [ i * 4 ] ^ ord ( key [ i % 16 ] ) ) , end = '' ) 
+</code></pre>
+<h2 id="ez_enc">ez_enc</h2>
+<p>flag:flag{!<em>r3ea11y_w4nt</em>@_cu7e_s1$ter}</p>
+<p>逻辑分析</p>
+<pre><code class="language-C">  for ( i = 0; i &lt; (int)(j_strlen(Str) - 1); ++i )
+    Str[i] = aImouto[i % 6] ^ (Str[i + 1] + (unsigned __int8)Str[i] % 20);
+  for ( j = 0; j &lt; (int)j_strlen(Str); ++j )
+  {
+    if ( Str[j] != byte_14001E008[j] )
+    {
+      sub_1400111A4(&quot;Wrong&quot;);
+      return 0;
+    }
+  }
+</code></pre>
+<p>这里的核心逻辑是<code>Str[i] = aImouto[i % 6] ^ (Str[i + 1] + (unsigned __int8)Str[i] % 20);</code></p>
+<p>很容易想到dfs倒推，约束条件是前五个字符为<code>flag{</code>，但是没有成功，遂发现了正推的逻辑，脚本实现</p>
+<p>只要推出了第一个是<code>f</code>，就很好做了，可以挨个进行递推</p>
+<pre><code class="language-Python">cipher = [0x27, 0x24, 0x17, 0x0B, 0x50, 0x03, 0xC8, 0x0C, 0x1F, 0x17, 0x36, 0x55, 0xCB, 0x2D, 0xE9, 0x32, 0x0E, 0x11, 0x26, 0x02, 0x0C, 0x07, 0xFC, 0x27, 0x3D, 0x2D, 0xED, 0x35, 0x59, 0xEB, 0x3C, 0x3E, 0xE4, 0x7D]
+key = 'IMouto'
+flag = []
+flag.append ( 'f' ) 
+for i in range ( len ( cipher ) - 1 ) :
+    flag.append ( chr ( ( cipher [ i ] ^ ord(key [ i % 6 ]) ) - ord ( flag [ i ] ) % 20 ) )
+for i in flag :
+    print ( i , end = '' )
+</code></pre>
+<h2 id="ezmath">ezmath</h2>
+<p>flag:XYCTF{q7WYGscUuptTYXjnjKoyUTKtG}</p>
+<p>py打包的exe，解包后反编译pyc文件，得到一大串的判断flag语句，拆开分析，主要是两种</p>
+<pre><code class="language-Python">sum([flag[i] for _ in range(flag[i])])
+
+sum([flag[i] for _ in range(m)])
+</code></pre>
+<p>容易发现，flag[31]对应最后一个字符，而此处的m为250，正好是125的两倍</p>
+<p>查看前五个字符，也正好是XYCTF的两倍，所以提取出来，即可得到flag</p>
+<pre><code class="language-Python">import re
+
+with open('D:/桌面/1.txt', 'r') as file:
+    lines = file.readlines()
+
+# 准备输出的代码
+output_code = []
+
+# 正则表达式，用于提取flag索引和范围
+pattern = re.compile(r&quot;flag\[(\d+)\] for _ in range\((\d+)\)&quot;)
+
+for line in lines:
+    # 使用正则表达式匹配行
+    match = pattern.search(line)
+    if match:
+        # 提取flag的索引和重复次数
+        index = match.group(1)
+        count = match.group(2)
+        
+        # 创建新的代码行
+        new_line = f&quot;flag[{index}] = {count} // 2\n&quot;
+        output_code.append(new_line)
+
+# 将生成的代码写入输出文件
+for i in output_code :
+    print ( i )
+flag = [0] * 32
+flag[24] = 222 // 2
+
+flag[9] = 178 // 2
+
+flag[29] = 232 // 2
+
+flag[23] = 150 // 2
+
+flag[6] = 226 // 2
+
+flag[7] = 110 // 2
+
+flag[0] = 176 // 2
+
+flag[12] = 198 // 2
+
+flag[3] = 168 // 2
+
+flag[2] = 134 // 2
+
+flag[13] = 170 // 2
+
+flag[10] = 142 // 2
+
+flag[15] = 224 // 2
+
+flag[11] = 230 // 2
+
+flag[1] = 178 // 2
+
+flag[5] = 246 // 2
+
+flag[17] = 168 // 2
+
+flag[21] = 220 // 2
+
+flag[22] = 212 // 2
+
+flag[16] = 232 // 2
+
+flag[4] = 140 // 2
+
+flag[31] = 250 // 2
+
+flag[28] = 150 // 2
+
+flag[14] = 234 // 2
+
+flag[8] = 174 // 2
+
+flag[25] = 242 // 2
+
+flag[30] = 142 // 2
+
+flag[26] = 170 // 2
+
+flag[19] = 176 // 2
+
+flag[27] = 168 // 2
+
+flag[20] = 212 // 2
+
+flag[18] = 178 // 2
+
+for i in flag :
+    print ( chr ( i ) , end = '' ) 
+</code></pre>
+<h2 id="何须相思煮余年">何须相思煮余年</h2>
+<p>flag:XYCTF{5b3e07567a9034d06851475481507a75}</p>
+<p>给了字节码，用ida打开一个新的00程序，先覆盖patch进去</p>
+<pre><code class="language-Python">import ida_bytes
+
+def simulate_xor_encryption(start_addr, size):
+    modified_data = [0x55,0x8b,0xec,0x81,0xec,0xa8,0x0,0x0,0x0,0xa1,0x0,0x40,0x41,0x0,0x33,0xc5,0x89,0x45,0xfc,0x68,0x9c,0x0,0x0,0x0,0x6a,0x0,0x8d,0x85,0x60,0xff,0xff,0xff,0x50,0xe8,0x7a,0xc,0x0,0x0,0x83,0xc4,0xc,0xc7,0x85,0x58,0xff,0xff,0xff,0x27,0x0,0x0,0x0,0xc7,0x85,0x5c,0xff,0xff,0xff,0x0,0x0,0x0,0x0,0xeb,0xf,0x8b,0x8d,0x5c,0xff,0xff,0xff,0x83,0xc1,0x1,0x89,0x8d,0x5c,0xff,0xff,0xff,0x83,0xbd,0x5c,0xff,0xff,0xff,0x27,0xf,0x8d,0xed,0x0,0x0,0x0,0x8b,0x95,0x5c,0xff,0xff,0xff,0x81,0xe2,0x3,0x0,0x0,0x80,0x79,0x5,0x4a,0x83,0xca,0xfc,0x42,0x85,0xd2,0x75,0x25,0x8b,0x85,0x5c,0xff,0xff,0xff,0x8b,0x8c,0x85,0x60,0xff,0xff,0xff,0x3,0x8d,0x5c,0xff,0xff,0xff,0x8b,0x95,0x5c,0xff,0xff,0xff,0x89,0x8c,0x95,0x60,0xff,0xff,0xff,0xe9,0xac,0x0,0x0,0x0,0x8b,0x85,0x5c,0xff,0xff,0xff,0x25,0x3,0x0,0x0,0x80,0x79,0x5,0x48,0x83,0xc8,0xfc,0x40,0x83,0xf8,0x1,0x75,0x22,0x8b,0x8d,0x5c,0xff,0xff,0xff,0x8b,0x94,0x8d,0x60,0xff,0xff,0xff,0x2b,0x95,0x5c,0xff,0xff,0xff,0x8b,0x85,0x5c,0xff,0xff,0xff,0x89,0x94,0x85,0x60,0xff,0xff,0xff,0xeb,0x73,0x8b,0x8d,0x5c,0xff,0xff,0xff,0x81,0xe1,0x3,0x0,0x0,0x80,0x79,0x5,0x49,0x83,0xc9,0xfc,0x41,0x83,0xf9,0x2,0x75,0x23,0x8b,0x95,0x5c,0xff,0xff,0xff,0x8b,0x84,0x95,0x60,0xff,0xff,0xff,0xf,0xaf,0x85,0x5c,0xff,0xff,0xff,0x8b,0x8d,0x5c,0xff,0xff,0xff,0x89,0x84,0x8d,0x60,0xff,0xff,0xff,0xeb,0x38,0x8b,0x95,0x5c,0xff,0xff,0xff,0x81,0xe2,0x3,0x0,0x0,0x80,0x79,0x5,0x4a,0x83,0xca,0xfc,0x42,0x83,0xfa,0x3,0x75,0x20,0x8b,0x85,0x5c,0xff,0xff,0xff,0x8b,0x8c,0x85,0x60,0xff,0xff,0xff,0x33,0x8d,0x5c,0xff,0xff,0xff,0x8b,0x95,0x5c,0xff,0xff,0xff,0x89,0x8c,0x95,0x60,0xff,0xff,0xff,0xe9,0xf7,0xfe,0xff,0xff,0x33,0xc0,0x8b,0x4d,0xfc,0x33,0xcd,0xe8,0x4,0x0,0x0,0x0,0x8b,0xe5,0x5d,0xc3]
+
+    # 将修改后的数据转换为bytes对象后写回到相同的地址
+    if not ida_bytes.patch_bytes(start_addr, bytes(modified_data)):
+        print(&quot;Failed to patch bytes.&quot;)
+    else:
+        print(&quot;Encryption simulated successfully.&quot;)
+
+# 脚本的入口点
+if __name__ == &quot;__main__&quot;:
+    # 函数起始位置
+    start_address = 0x00
+    # 数据大小，根据给定的循环次数决定
+    data_size = 344
+    
+    # 执行加密模拟
+    simulate_xor_encryption(start_address, data_size )
+</code></pre>
+<p>然后查看汇编代码，用gpt分析或用ida分析</p>
+<pre><code class="language-C">void function() {
+    int local_array[42]; // 假设数组大小为42，实际大小取决于A8h的解释
+    int i = 0;
+    for (; i &lt; 39; i++) { // 假设循环到39，实际上是对'27h'的解释
+        int index = i &amp; 3; // 实际上对应汇编中的 'and edx, 80000003h'
+        if (index == 0) {
+            local_array[i] += i;
+        } else if (index == 1) {
+            local_array[i] -= i;
+        } else if (index == 2) {
+            local_array[i] *= i;
+        } else if (index == 3) {
+            local_array[i] ^= i;
+        }
+    }
+}
+for ( i = 0; i &lt; 39; ++i )
+  {
+    if ( i % 4 )
+    {
+      switch ( i % 4 )
+      {
+        case 1:
+          v2[i] -= i;
+          break;
+        case 2:
+          v2[i] *= i;
+          break;
+        case 3:
+          v2[i] ^= i;
+          break;
+      }
+    }
+    else
+    {
+      v2[i] += i;
+    }
+  }
+</code></pre>
+<p>根据逻辑逆向即可</p>
+<pre><code class="language-Python">enc = [88,88,134,87,74,118,318,101,59,92,480,60,65,41,770,110,73,31,918,39,120,27,1188,47,77,24,1352,44,81,23,1680,46,85,15,1870,66,91,16,4750]
+flag = ''
+for i in range ( len ( enc ) ) :
+    index = i &amp; 3 
+    if index == 0 :
+        enc [ i ] -= i 
+    elif index == 1 :
+        enc [ i ] += i 
+    elif index == 2 :
+        enc [ i ] //= i 
+    else :
+        enc [ i ] ^= i
+    flag += chr ( enc [ i ] ) 
+print ( flag )
+</code></pre>
+<h2 id="whats-this">What's this</h2>
+<p>flag:XYCTF{5dcbaed781363fbfb7d8647c1aee6c}</p>
+<p>lua文件，先用unluac反编译</p>
+<pre><code class="language-C">java -jar unluac_2023_11_15.jar what.lua &gt; what_de.lua
+</code></pre>
+<p>得到源码，发现一堆反混淆，提取出关键代码</p>
+<pre><code class="language-Lua">while true do
+  local temp = string.byte(flag, i)
+  temp = string.char(Xor(temp, 8) % 256)
+  value = value .. temp
+  i = i + 1
+  if i &gt; string.len(flag) then
+    break
+  end
+end
+
+for i = 1, string.len(flag) do
+  temp = string.byte(value, i)
+  temp = string.char(temp + 3)
+  output = output .. temp
+end
+
+require(&quot;base64&quot;)
+obfuscated_output = to_base64(output)
+obfuscated_output = string.reverse(obfuscated_output)
+obfuscated_output = string.gsub(obfuscated_output, &quot;g&quot;, &quot;3&quot;)
+obfuscated_output = string.gsub(obfuscated_output, &quot;H&quot;, &quot;4&quot;)
+obfuscated_output = string.gsub(obfuscated_output, &quot;W&quot;, &quot;6&quot;)
+invalid_variable = obfuscated_output:rep(5)
+if obfuscated_output == &quot;==AeuFEcwxGPuJ0PBNzbC16ctFnPB5DPzI0bwx6bu9GQ2F1XOR1U&quot; then
+  print(&quot;You get the flag.&quot;)
+else
+  print(&quot;F**k!&quot;)
+end
+</code></pre>
+<p>异或取模 -&gt; 加法 -&gt; base64 -&gt; 字符串的反转替换</p>
+<pre><code class="language-Lua">cipher = &quot;STN_Qv@onmlpoB3&lt;&gt;A&gt;qmqmBo3A?Bn&lt;lppAnx&quot;
+
+for i in range ( len ( cipher ) ) :
+    a = chr ( ( ord ( cipher [ i ] ) - 3 ) ^ 8 )
+    print ( a , end = '' ) 
+</code></pre>
+<h2 id="舔狗四部曲-简爱">舔狗四部曲--简爱</h2>
+<p>flag:FLAG{vm_is_A_3ecreT_l0Ve_revers}</p>
+<pre><code class="language-Python">gra = [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,4,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,4,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2]
+cipher = 'flag{Love_is_not_one_sided_Love}'
+ci = list ( cipher )
+c = []
+for i in range ( len ( ci ) ) :
+     c.append ( ord ( ci [ i ] ) )
+flag = ''
+dex = len ( c ) - 1
+for i in gra :
+    if i == 2 :
+        dex -= 1
+        flag += chr ( c [ dex + 1 ] ) 
+    elif i == 1 :
+        c [ dex ] += 1
+    elif i == 0 :
+        c [ dex ] -= 1
+    elif i == 4 :
+        c [ dex ] = c [ dex ] - c [ dex + 1 ] + 70
+    else :
+        c [ dex ] = c [ dex ] + c [ dex + 1 ] - 70 
+
+print ( flag[::-1] )
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/OEDu25kST/" class="tag">
+                    WP
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://betacatiz.github.io/post/2024ba-yu-bei-da-xue-sheng-wang-luo-an-quan-lian-sai-writeup/">
+                  <h3 class="post-title">
+                    2024&#34;巴渝杯&#34;大学生网络安全联赛 WriteUp
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

